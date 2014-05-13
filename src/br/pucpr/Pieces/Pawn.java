@@ -4,5 +4,5 @@ import br.pucpr.IPiece;
 
 public class Pawn implements IPiece
 {
-
+	// TODO
 }
