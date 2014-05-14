@@ -18,41 +18,16 @@ public class King implements IPiece
 		if ((y > 7) || (y < 0))
 			return false;
 		
-		if(x>x0)
-		{
-			
-			if(y>y0){
-				for(int i=x0+1,j=y0+1;i<x && j<y; i++,j++)
-					if(table[i][j]!=null)
-						return false;
-			}
-			else {
-				for(int i=x0+1,j=y-1;i<x && j> y0; i++,j--)
-					if(table[i][j]!=null)
-						return false;
-			}
-		}
+		if ((x == x0)||(y == y0))
+			return false;
 		
-		if(x<x0){
-		
-			if(y>y0){
-				for(int i=x0-1,j=y0+1;i>x && j<y; i--,j++)
-					if(table[i][j]!=null)
-						return false;
-			}
-			else {
-				for(int i=x0-1,j=y-1;i>x && j> y0; i--,j--)
-					if(table[i][j]!=null)
-						return false;
-			}
-		}
 		return true;
 	}
 
 	@Override
 	public boolean isHit( int x, int y, IPiece[][] table )
 	{
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
