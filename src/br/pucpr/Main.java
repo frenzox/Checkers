@@ -47,15 +47,10 @@ public class Main
 		{
 
 		}
-<<<<<<< HEAD
 		
 		 
 		ImageIcon imgTst = new ImageIcon("../Checkers/src/br/pucpr/img/white.png");
 		
-=======
-
-		ImageIcon imgTst = new ImageIcon();
->>>>>>> FETCH_HEAD
 		
 
 		buttons = new JButtonCheckers[8][8];
