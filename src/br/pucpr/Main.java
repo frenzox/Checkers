@@ -132,7 +132,7 @@ public class Main
 			}
 
 	}
-
+	
 	public int movimenta( int xOr, int yOr, int xDest, int yDest )
 			throws MovErr
 	{
