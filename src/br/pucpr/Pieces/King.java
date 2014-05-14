@@ -9,7 +9,13 @@ public class King implements IPiece
 	private Colors pieceColor;
 	private int x0, y0;
 	private int rr;
+<<<<<<< HEAD
+	private int ahauehuahe;
+	private int ert;
+=======
+	private int tst;
 
+>>>>>>> 54aab144ad54608ca34d8dc9e6360d8695c86822
 	@Override
 	public boolean isValid( int x, int y, IPiece[][] table )
 	{
