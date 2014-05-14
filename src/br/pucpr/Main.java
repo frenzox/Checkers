@@ -2,9 +2,9 @@
  * 
  * Developed by:
  * Guilherme Silva (frenzox@msn.com)
- * André Luppi (andrell_alemao@hotmail.com)
+ * Andr≈Ω Luppi (andrell_alemao@hotmail.com)
  * 
- * Pontifical Catholic University of Paraná - Curitiba/Paraná/Brazil
+ * Pontifical Catholic University of Paran‚Ä° - Curitiba/Paran‚Ä°/Brazil
  * 
  * Project repository: https://github.com/frenzox/Checkers/
  */
@@ -47,10 +47,15 @@ public class Main
 		{
 
 		}
+<<<<<<< HEAD
 		
 		 
 		ImageIcon imgTst = new ImageIcon("../Checkers/src/br/pucpr/img/white.png");
 		
+=======
+
+		ImageIcon imgTst = new ImageIcon();
+>>>>>>> FETCH_HEAD
 		
 
 		buttons = new JButtonCheckers[8][8];
@@ -73,7 +78,7 @@ public class Main
 				btn.setIcon( imgTst );
 				buttons[i][j] = btn;
 				if ( ( i + j ) % 2 != 0 )
-					buttons[i][j].setBackground( Color.black );
+					buttons[i][j].setBackground( Color.black);
 
 				else
 					buttons[i][j].setBackground( Color.white );
@@ -139,7 +144,7 @@ public class Main
 		{
 
 			/*
-			 * caso a posicao de destino nao esteja ocupada,atualiza a posição
+			 * caso a posicao de destino nao esteja ocupada,atualiza a posiÔøΩ‚Äπo
 			 */
 
 			IPiece tmp = table[xOr][yOr];
