@@ -13,7 +13,6 @@ package br.pucpr;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
@@ -58,18 +57,11 @@ public class Main
 			{
 				table.get( i ).add( null );
 			}
-
 		}
-
-		ImageIcon imgTst = new ImageIcon(
-				"../Checkers/src/br/pucpr/img/white.png" );
-
-		buttons = new JButtonCheckers[8][8];
 
 		for ( int i = 0; i < 8; i++ )
 			for ( int j = 0; j < 8; j++ )
 			{
-
 				if ( ( i + j ) % 2 != 0 )
 				{
 
@@ -98,6 +90,7 @@ public class Main
 				ImageIcon blackPiece = new ImageIcon(
 						"/Checkers/src/br/pucpr/img/black.png" );
 
+				buttons = new JButtonCheckers[8][8];
 
 				final JFrame frame = new JFrame( "Damas" );
 				frame.setSize( 800, 800 );
@@ -110,8 +103,6 @@ public class Main
 				contentPane.setBounds( 0, 0, 600, 600 );
 				frame.add( contentPane );
 
-				buttons = new JButtonCheckers[8][8];
-				
 				for ( i = 0; i < 8; i++ )
 					for ( j = 0; j < 8; j++ )
 					{
@@ -147,7 +138,6 @@ public class Main
 	{
 
 		// verifica se existe uma Peca na posicao de origem
-
 		if ( table.get( xOr ).get( yOr ) == null )
 			throw new MovErr( "Erro, posicao (x,y) sem peca: " + xOr + ","
 					+ yOr );
@@ -168,6 +158,9 @@ public class Main
 			IPiece tmp = table.get( xOr ).get( yOr );
 			table.get( xOr ).set( yOr, null );
 			table.get( xDest ).set( yOr, tmp );
+			tmp.setX0( xDest );
+			tmp.setY0( yDest );
+			return 0;
 
 		} else
 		{
