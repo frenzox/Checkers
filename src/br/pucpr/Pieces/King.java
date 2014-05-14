@@ -5,44 +5,47 @@ import br.pucpr.IPiece;
 
 public class King implements IPiece
 {
-	
+
 	private Colors pieceColor;
 	private int x0, y0;
 
 	@Override
 	public boolean isValid( int x, int y, IPiece[][] table )
 	{
-		if ((x > 7) || (x < 0))
+		if ( ( x > 7 ) || ( x < 0 ) )
 			return false;
 
-		if ((y > 7) || (y < 0))
+		if ( ( y > 7 ) || ( y < 0 ) )
 			return false;
-		
-		if(x>x0)
+
+		if ( x > x0 )
 		{
-			
-			if(y>y0){
-				for(int i=x0+1,j=y0+1;i<x && j<y; i++,j++)
-					if(table[i][j]!=null)
+
+			if ( y > y0 )
+			{
+				for ( int i = x0 + 1, j = y0 + 1; i < x && j < y; i++, j++ )
+					if ( table[i][j] != null )
 						return false;
-			}
-			else {
-				for(int i=x0+1,j=y-1;i<x && j> y0; i++,j--)
-					if(table[i][j]!=null)
+			} else
+			{
+				for ( int i = x0 + 1, j = y - 1; i < x && j > y0; i++, j-- )
+					if ( table[i][j] != null )
 						return false;
 			}
 		}
-		
-		if(x<x0){
-		
-			if(y>y0){
-				for(int i=x0-1,j=y0+1;i>x && j<y; i--,j++)
-					if(table[i][j]!=null)
+
+		if ( x < x0 )
+		{
+
+			if ( y > y0 )
+			{
+				for ( int i = x0 - 1, j = y0 + 1; i > x && j < y; i--, j++ )
+					if ( table[i][j] != null )
 						return false;
-			}
-			else {
-				for(int i=x0-1,j=y-1;i>x && j> y0; i--,j--)
-					if(table[i][j]!=null)
+			} else
+			{
+				for ( int i = x0 - 1, j = y - 1; i > x && j > y0; i--, j-- )
+					if ( table[i][j] != null )
 						return false;
 			}
 		}

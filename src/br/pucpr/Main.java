@@ -13,6 +13,7 @@ package br.pucpr;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,8 +26,8 @@ import br.pucpr.Pieces.Pawn;
 public class Main
 {
 	private boolean flag = false;
-	private static IPiece table[][];
 	static JButtonCheckers[][] buttons;
+	private static LinkedList<LinkedList<IPiece>> table = new LinkedList<LinkedList<IPiece>>();
 
 	public static void main( String[] args )
 	{
@@ -47,61 +48,87 @@ public class Main
 		{
 
 		}
-		
-		 
-		ImageIcon imgTst = new ImageIcon("../Checkers/src/br/pucpr/img/white.png");
-		
-		
 
-		buttons = new JButtonCheckers[8][8];
+		for ( int i = 0; i < 8; i++ )
+		{
+			table.add( new LinkedList<IPiece>() );
 
-		final JFrame frame = new JFrame( "Damas" );
-		frame.setSize( 800, 800 );
-		frame.setLocationRelativeTo( null );
-		frame.setLayout( null );
-
-		JPanel contentPane = new JPanel();
-		contentPane.setLayout( new GridLayout( 8, 8 ) );
-		// contentPane.setLocation( 0, 0 );
-		contentPane.setBounds( 0, 0, 600, 600 );
-		frame.add( contentPane );
+			for ( int j = 0; j < 8; j++ )
+			{
+				table.get( i ).add( null );
+			}
+		}
 
 		for ( int i = 0; i < 8; i++ )
 			for ( int j = 0; j < 8; j++ )
 			{
-				JButtonCheckers btn = new JButtonCheckers( i, j );
-				btn.setIcon( imgTst );
-				buttons[i][j] = btn;
 				if ( ( i + j ) % 2 != 0 )
-					buttons[i][j].setBackground( Color.black);
+				{
 
-				else
-					buttons[i][j].setBackground( Color.white );
-				buttons[i][j].setSize( 10, 10 );
+					if ( i <= 2 )
+					{
+						table.get( i ).set( j, new Pawn() );
+						table.get( i ).get( j ).setX0( i );
+						table.get( i ).get( j ).setY0( j );
+						table.get( i ).get( j ).setColor( Colors.BLACK );
 
-				contentPane.add( btn );
+					}
+					if ( i >= 5 )
+					{
 
-				frame.setVisible( true );
+						table.get( i ).set( j, new Pawn() );
+						table.get( i ).get( j ).setX0( i );
+						table.get( i ).get( j ).setY0( j );
+						table.get( i ).get( j ).setColor( Colors.BLACK );
 
-				/*
-				 * for ( i = 0; i < 8; i++ ) for ( j = 0; j < 8; j++ ) {
-				 * 
-				 * if ( i + j % 2 != 0 ) {
-				 * 
-				 * if ( j <= 2 ) {
-				 * 
-				 * table[i][j] = new Pawn(); table[i][j].setX0( i );
-				 * table[i][j].setY0( j ); table[i][j].setColor( Colors.BLACK );
-				 * 
-				 * } if ( j >= 5 ) {
-				 * 
-				 * table[i][j] = new Pawn(); table[i][j].setX0( i );
-				 * table[i][j].setY0( j ); table[i][j].setColor( Colors.WHITE );
-				 * 
-				 * }
-				 * 
-				 * } }
-				 */
+					}
+
+				}
+
+				ImageIcon whitePiece = new ImageIcon(
+						"../Checkers/src/br/pucpr/img/white.png" );
+				ImageIcon blackPiece = new ImageIcon(
+						"/Checkers/src/br/pucpr/img/black.png" );
+
+				buttons = new JButtonCheckers[8][8];
+
+				final JFrame frame = new JFrame( "Damas" );
+				frame.setSize( 800, 800 );
+				frame.setLocationRelativeTo( null );
+				frame.setLayout( null );
+
+				JPanel contentPane = new JPanel();
+				contentPane.setLayout( new GridLayout( 8, 8 ) );
+
+				contentPane.setBounds( 0, 0, 600, 600 );
+				frame.add( contentPane );
+
+				for ( i = 0; i < 8; i++ )
+					for ( j = 0; j < 8; j++ )
+					{
+						JButtonCheckers btn = new JButtonCheckers( i, j );
+						buttons[i][j] = btn;
+
+						if ( table.get( i ).get( j ) != null
+								&& table.get( i ).get( j ).getColor() == Colors.BLACK )
+							buttons[i][j].setIcon( blackPiece );
+
+						if ( table.get( i ).get( j ) != null
+								&& table.get( i ).get( j ).getColor() == Colors.WHITE )
+							buttons[i][j].setIcon( whitePiece );
+
+						if ( ( i + j ) % 2 != 0 )
+							buttons[i][j].setBackground( Color.black );
+
+						else
+							buttons[i][j].setBackground( Color.white );
+						buttons[i][j].setSize( 10, 10 );
+
+						contentPane.add( btn );
+
+						frame.setVisible( true );
+
+					}
 			}
 
 	}
@@ -111,26 +138,26 @@ public class Main
 	{
 
 		// verifica se existe uma Peca na posicao de origem
-		if ( table[xOr][yOr] == null )
+		if ( table.get( xOr ).get( yOr ) == null )
 			throw new MovErr( "Erro, posicao (x,y) sem peca: " + xOr + ","
 					+ yOr );
 		/*
 		 * verifica se o movimento e valido
 		 */
-		if ( !table[xOr][yOr].isValid( xDest, yDest, table ) )
+		if ( !table.get( xOr ).get( yOr ).isValid( xDest, yDest, table ) )
 			throw new MovErr( "Erro, posicao (x,y) invalida: " + xDest + ","
 					+ yDest );
 		// verifica se a posicao de destino ja esta ocupada
-		if ( table[xDest][yDest] == null )
+		if ( table.get( xDest ).get( yDest ) == null )
 		{
 			// testa possibilidade de ataque
-			if ( !( table[xOr][yOr].isHit( xDest, yDest, table ) ) )
+			if ( !( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) ) )
 				throw new MovErr( "Erro, posicao (x,y) invalidaaa: " + xDest
 						+ "," + yDest );
 
-			IPiece tmp = table[xOr][yOr];
-			table[xOr][yOr] = null;
-			table[xDest][yDest] = tmp;
+			IPiece tmp = table.get( xOr ).get( yOr );
+			table.get( xOr ).set( yOr, null );
+			table.get( xDest ).set( yOr, tmp );
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
 			return 0;
@@ -139,12 +166,13 @@ public class Main
 		{
 
 			/*
-			 * caso a posicao de destino nao esteja ocupada,atualiza a posi�‹o
+			 * caso a posicao de destino nao esteja ocupada,atualiza a
+			 * posi�‹o
 			 */
 
-			IPiece tmp = table[xOr][yOr];
-			table[xOr][yOr] = null;
-			table[xDest][yDest] = tmp;
+			IPiece tmp = table.get( xOr ).get( yOr );
+			table.get( xOr ).set( yOr, null );
+			table.get( xDest ).set( yOr, tmp );
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
 			return 0;
