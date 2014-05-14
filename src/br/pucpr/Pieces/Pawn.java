@@ -1,5 +1,6 @@
 package br.pucpr.Pieces;
 
+import java.util.LinkedList;
 
 import br.pucpr.Colors;
 import br.pucpr.IPiece;
@@ -7,9 +8,10 @@ import br.pucpr.IPiece;
 public class Pawn implements IPiece {
 	private Colors pieceColor;
 	private int x0, y0;
+	private boolean hit = false;
 
 	@Override
-	public boolean isValid(int x, int y, IPiece[][] table) {
+	public boolean isValid(int x, int y, LinkedList<LinkedList<IPiece>> table) {
 		if ((x > 7) || (x < 0))
 			return false;
 
@@ -23,7 +25,8 @@ public class Pawn implements IPiece {
 			if (x > x0)
 				return false;
 
-			if ((Math.abs(x - x0) > 1) && !(table[x][y].isHit(x, y, table)))
+			if ((Math.abs(x - x0) > 1)
+					&& !(table.get(x0).get(y0).isHit(x, y, table)))
 				return false;
 
 		}
@@ -32,7 +35,8 @@ public class Pawn implements IPiece {
 			if (x < x0)
 				return false;
 
-			if ((Math.abs(x - x0) > 1) && !(table[x][y].isHit(x, y, table)))
+			if ((Math.abs(x - x0) > 1)
+					&& !(table.get(x0).get(y0).isHit(x, y, table)))
 				return false;
 
 		}
@@ -41,50 +45,72 @@ public class Pawn implements IPiece {
 	}
 
 	@Override
-	public boolean isHit(int x, int y, IPiece[][] table) {
-		if (table[x][y] != null)
+	public boolean isHit(int x, int y, LinkedList<LinkedList<IPiece>> table) {
+		if (table.get(x).get(y) != null)
 			return false;
 
 		if (Math.abs(x - x0) != 2)
 			return false;
-
-		if (pieceColor == Colors.WHITE) {
-
-			if (table[x + 1][y - 1].getColor() == table[x0][y0].getColor())
-				return false;
-			else {
-
-				if (y == (y0 - 2)) {
-					table[x + 1][y - 1].setColor(Colors.YELLOW);
-					table[x][y] = table[x0][y0];
-				} else if (y == (y0 + 2)) {
-					table[x + 1][y + 1].setColor(Colors.YELLOW);
-					table[x][y] = table[x0][y0];
-				}
-
+		
+		if (table.get(x0).get(y0).isHit()){
+			if((y < y0) && (x > x0)){
+				if (table.get(x + 1).get(y - 1).getColor() == table.get(x0).get(y0).getColor())
+					return false;
+				
 			}
+			else if((y > y0) && (x > x0)){
+				if (table.get(x + 1).get(y + 1).getColor() == table.get(x0).get(y0).getColor())
+					return false;
+				
+			}
+
+			if((y < y0) && (x < x0)){
+				if (table.get(x - 1).get(y - 1).getColor() == table.get(x0).get(y0).getColor())
+						return false;
+			}
+			else if((y > y0) && (x < x0)){
+				if (table.get(x - 1).get(y + 1).getColor() == table.get(x0).get(y0).getColor())
+						return false;
+			}
+			return true;
+		}
+
+		else if (pieceColor == Colors.WHITE) {
+			
+			if(y < y0){
+				if (table.get(x + 1).get(y - 1).getColor() == table.get(x0).get(y0).getColor())
+					return false;
+			}
+			else if(y>y0){
+				if (table.get(x + 1).get(y + 1).getColor() == table.get(x0).get(y0).getColor())
+					return false;
+			}
+			
 
 			return true;
 		}
 
 		if (pieceColor == Colors.BLACK) {
 
-			if (table[x - 1][y + 1].getColor() == table[x0][y0].getColor())
-				return false;
-			else {
-				if (y == (y0 + 2)) {
-					table[x - 1][y + 1].setColor(Colors.YELLOW);
-					table[x][y] = table[x0][y0];
-				} else if (y == (y0 - 2)) {
-
-					table[x - 1][y - 1].setColor(Colors.YELLOW);
-					table[x][y] = table[x0][y0];
+				if(y < y0){
+					if (table.get(x - 1).get(y - 1).getColor() == table.get(x0).get(y0).getColor())
+						return false;}
+				else if(y>y0){
+					if (table.get(x - 1).get(y + 1).getColor() == table.get(x0).get(y0).getColor())
+						return false;
 				}
-			}
 
 			return true;
 		}
 		return false;
+	}
+
+	public boolean isHit() {
+		return hit;
+	}
+
+	public void setHit(boolean hit) {
+		this.hit = hit;
 	}
 
 	@Override

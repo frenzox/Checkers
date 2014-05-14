@@ -1,5 +1,7 @@
 package br.pucpr.Pieces;
 
+import java.util.LinkedList;
+
 import br.pucpr.Colors;
 import br.pucpr.IPiece;
 
@@ -10,7 +12,7 @@ public class King implements IPiece
 	private int x0, y0;
 
 	@Override
-	public boolean isValid( int x, int y, IPiece[][] table )
+	public boolean isValid( int x, int y, LinkedList<LinkedList<IPiece>> table )
 	{
 		if ( ( x > 7 ) || ( x < 0 ) )
 			return false;
@@ -53,7 +55,7 @@ public class King implements IPiece
 	}
 
 	@Override
-	public boolean isHit( int x, int y, IPiece[][] table )
+	public boolean isHit( int x, int y, LinkedList<LinkedList<IPiece>> table )
 	{
 		// TODO Auto-generated method stub
 		return false;
@@ -96,5 +98,11 @@ public class King implements IPiece
 	{
 		this.y0 = y0;
 
+	}
+
+	@Override
+	public boolean isHit() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
