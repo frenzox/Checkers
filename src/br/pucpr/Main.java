@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 /* Checkers with Alfa-Beta pruning
  * 
  * Developed by:
@@ -154,3 +156,4 @@ public class Main
 	}
 
 }
+
