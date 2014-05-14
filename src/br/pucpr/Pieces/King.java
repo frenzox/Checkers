@@ -10,7 +10,7 @@ public class King implements IPiece
 	private int x0, y0;
 	private int rr;
 	private int ahauehuahe;
-
+	private int ert;
 	@Override
 	public boolean isValid( int x, int y, IPiece[][] table )
 	{
