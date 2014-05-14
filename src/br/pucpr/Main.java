@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 /* Checkers with Alfa-Beta pruning
  * 
@@ -157,3 +158,5 @@ public class Main
 
 }
 
+=======
+>>>>>>> 3709474273e7781437472758e4511f399a1c7e45
