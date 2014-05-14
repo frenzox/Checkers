@@ -48,7 +48,40 @@ public class Pawn implements IPiece
 	@Override
 	public boolean isHit( int x, int y, IPiece[][] table )
 	{
-		// TODO Auto-generated method stub
+		if ( table[x][y] != null )
+			return false;
+
+		if ( Math.abs( x - x0 ) != 2 )
+			return false;
+
+		if ( pieceColor == Colors.WHITE )
+		{
+
+			if ( table[x + 1][y - 1].getColor() == table[x0][y0].getColor() )
+				return false;
+			else
+			{
+				table[x + 1][y - 1].setColor( Colors.YELLOW );
+				table[x][y] = table[x0][y0];
+
+			}
+
+			return true;
+		}
+
+		if ( pieceColor == Colors.BLACK )
+		{
+
+			if ( table[x - 1][y + 1].getColor() == table[x0][y0].getColor() )
+				return false;
+			else
+			{
+				table[x - 1][y + 1].setColor( Colors.YELLOW );
+				table[x][y] = table[x0][y0];
+			}
+
+			return true;
+		}
 		return false;
 	}
 
