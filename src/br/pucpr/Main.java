@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> FETCH_HEAD
 /* Checkers with Alfa-Beta pruning
  * 
  * Developed by:
@@ -13,7 +19,10 @@ package br.pucpr;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+<<<<<<< HEAD
 import java.util.LinkedList;
+=======
+>>>>>>> FETCH_HEAD
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -26,8 +35,13 @@ import br.pucpr.Pieces.Pawn;
 public class Main
 {
 	private boolean flag = false;
+<<<<<<< HEAD
 	static JButtonCheckers[][] buttons;
 	private static LinkedList<LinkedList<IPiece>> table = new LinkedList<LinkedList<IPiece>>();
+=======
+	private static IPiece table[][];
+	static JButtonCheckers[][] buttons;
+>>>>>>> FETCH_HEAD
 
 	public static void main( String[] args )
 	{
@@ -47,6 +61,7 @@ public class Main
 		} catch ( IllegalAccessException e )
 		{
 
+<<<<<<< HEAD
 		}
 
 		for ( int i = 0; i < 8; i++ )
@@ -58,10 +73,32 @@ public class Main
 				table.get( i ).add( null );
 			}
 		}
+=======
+		}
+		
+		 
+		ImageIcon imgTst = new ImageIcon("../Checkers/src/br/pucpr/img/white.png");
+		
+		
+
+		buttons = new JButtonCheckers[8][8];
+
+		final JFrame frame = new JFrame( "Damas" );
+		frame.setSize( 800, 800 );
+		frame.setLocationRelativeTo( null );
+		frame.setLayout( null );
+
+		JPanel contentPane = new JPanel();
+		contentPane.setLayout( new GridLayout( 8, 8 ) );
+		// contentPane.setLocation( 0, 0 );
+		contentPane.setBounds( 0, 0, 600, 600 );
+		frame.add( contentPane );
+>>>>>>> FETCH_HEAD
 
 		for ( int i = 0; i < 8; i++ )
 			for ( int j = 0; j < 8; j++ )
 			{
+<<<<<<< HEAD
 				if ( ( i + j ) % 2 != 0 )
 				{
 
@@ -133,17 +170,61 @@ public class Main
 
 	}
 	
+=======
+				JButtonCheckers btn = new JButtonCheckers( i, j );
+				btn.setIcon( imgTst );
+				buttons[i][j] = btn;
+				if ( ( i + j ) % 2 != 0 )
+					buttons[i][j].setBackground( Color.black);
+
+				else
+					buttons[i][j].setBackground( Color.white );
+				buttons[i][j].setSize( 10, 10 );
+
+				contentPane.add( btn );
+
+				frame.setVisible( true );
+
+				/*
+				 * for ( i = 0; i < 8; i++ ) for ( j = 0; j < 8; j++ ) {
+				 * 
+				 * if ( i + j % 2 != 0 ) {
+				 * 
+				 * if ( j <= 2 ) {
+				 * 
+				 * table[i][j] = new Pawn(); table[i][j].setX0( i );
+				 * table[i][j].setY0( j ); table[i][j].setColor( Colors.BLACK );
+				 * 
+				 * } if ( j >= 5 ) {
+				 * 
+				 * table[i][j] = new Pawn(); table[i][j].setX0( i );
+				 * table[i][j].setY0( j ); table[i][j].setColor( Colors.WHITE );
+				 * 
+				 * }
+				 * 
+				 * } }
+				 */
+			}
+
+	}
+
+>>>>>>> FETCH_HEAD
 	public int movimenta( int xOr, int yOr, int xDest, int yDest )
 			throws MovErr
 	{
 
 		// verifica se existe uma Peca na posicao de origem
+<<<<<<< HEAD
 		if ( table.get( xOr ).get( yOr ) == null )
+=======
+		if ( table[xOr][yOr] == null )
+>>>>>>> FETCH_HEAD
 			throw new MovErr( "Erro, posicao (x,y) sem peca: " + xOr + ","
 					+ yOr );
 		/*
 		 * verifica se o movimento e valido
 		 */
+<<<<<<< HEAD
 		if ( !table.get( xOr ).get( yOr ).isValid( xDest, yDest, table ) )
 			throw new MovErr( "Erro, posicao (x,y) invalida: " + xDest + ","
 					+ yDest );
@@ -158,6 +239,22 @@ public class Main
 			IPiece tmp = table.get( xOr ).get( yOr );
 			table.get( xOr ).set( yOr, null );
 			table.get( xDest ).set( yOr, tmp );
+=======
+		if ( !table[xOr][yOr].isValid( xDest, yDest, table ) )
+			throw new MovErr( "Erro, posicao (x,y) invalida: " + xDest + ","
+					+ yDest );
+		// verifica se a posicao de destino ja esta ocupada
+		if ( table[xDest][yDest] == null )
+		{
+			// testa possibilidade de ataque
+			if ( !( table[xOr][yOr].isHit( xDest, yDest, table ) ) )
+				throw new MovErr( "Erro, posicao (x,y) invalidaaa: " + xDest
+						+ "," + yDest );
+
+			IPiece tmp = table[xOr][yOr];
+			table[xOr][yOr] = null;
+			table[xDest][yDest] = tmp;
+>>>>>>> FETCH_HEAD
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
 			return 0;
@@ -166,6 +263,7 @@ public class Main
 		{
 
 			/*
+<<<<<<< HEAD
 			 * caso a posicao de destino nao esteja ocupada,atualiza a
 			 * posi�‹o
 			 */
@@ -173,6 +271,14 @@ public class Main
 			IPiece tmp = table.get( xOr ).get( yOr );
 			table.get( xOr ).set( yOr, null );
 			table.get( xDest ).set( yOr, tmp );
+=======
+			 * caso a posicao de destino nao esteja ocupada,atualiza a posi�‹o
+			 */
+
+			IPiece tmp = table[xOr][yOr];
+			table[xOr][yOr] = null;
+			table[xDest][yDest] = tmp;
+>>>>>>> FETCH_HEAD
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
 			return 0;
@@ -181,4 +287,11 @@ public class Main
 
 	}
 
+<<<<<<< HEAD
 }
+=======
+}
+
+=======
+>>>>>>> 3709474273e7781437472758e4511f399a1c7e45
+>>>>>>> FETCH_HEAD
