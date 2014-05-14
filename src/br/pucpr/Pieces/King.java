@@ -7,6 +7,8 @@ public class King implements IPiece
 {
 	private Colors pieceColor;
 	private int x0, y0;
+	
+	private char teste;
 
 	@Override
 	public boolean isValid( int x, int y, IPiece[][] table )
