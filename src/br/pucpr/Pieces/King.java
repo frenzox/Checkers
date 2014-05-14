@@ -5,12 +5,10 @@ import br.pucpr.IPiece;
 
 public class King implements IPiece
 {
-	private double tst2;
-	private int tst;
+	
 	private Colors pieceColor;
 	private int x0, y0;
-	private int auehuaheuahea;
-	private char teste;
+	
 
 	@Override
 	public boolean isValid( int x, int y, IPiece[][] table )
