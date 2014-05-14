@@ -12,6 +12,7 @@ package br.pucpr;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -46,8 +47,10 @@ public class Main
 		{
 
 		}
-
-		ImageIcon imgTst = new ImageIcon( "/Users/Guilherme/Desktop/tst.png" );
+		
+		 
+		ImageIcon imgTst = new ImageIcon("../Checkers/src/br/pucpr/img/white.png");
+		
 		
 
 		buttons = new JButtonCheckers[8][8];
@@ -81,34 +84,24 @@ public class Main
 				frame.setVisible( true );
 
 				/*
-				for ( i = 0; i < 8; i++ )
-					for ( j = 0; j < 8; j++ )
-					{
-
-						if ( i + j % 2 != 0 )
-						{
-
-							if ( j <= 2 )
-							{
-
-								table[i][j] = new Pawn();
-								table[i][j].setX0( i );
-								table[i][j].setY0( j );
-								table[i][j].setColor( Colors.BLACK );
-
-							}
-							if ( j >= 5 )
-							{
-
-								table[i][j] = new Pawn();
-								table[i][j].setX0( i );
-								table[i][j].setY0( j );
-								table[i][j].setColor( Colors.WHITE );
-
-							}
-
-						}
-					}*/
+				 * for ( i = 0; i < 8; i++ ) for ( j = 0; j < 8; j++ ) {
+				 * 
+				 * if ( i + j % 2 != 0 ) {
+				 * 
+				 * if ( j <= 2 ) {
+				 * 
+				 * table[i][j] = new Pawn(); table[i][j].setX0( i );
+				 * table[i][j].setY0( j ); table[i][j].setColor( Colors.BLACK );
+				 * 
+				 * } if ( j >= 5 ) {
+				 * 
+				 * table[i][j] = new Pawn(); table[i][j].setX0( i );
+				 * table[i][j].setY0( j ); table[i][j].setColor( Colors.WHITE );
+				 * 
+				 * }
+				 * 
+				 * } }
+				 */
 			}
 
 	}
