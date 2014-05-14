@@ -6,55 +6,58 @@ import br.pucpr.IPiece;
 public class King implements IPiece
 {
 	private Colors pieceColor;
-	private int x, y;
-	
-	
+	private int x0, y0;
+
 	@Override
 	public boolean isValid( int x, int y, IPiece[][] table )
 	{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	@Override
 	public boolean isHit( int x, int y, IPiece[][] table )
 	{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	@Override
 	public Colors getColor()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.pieceColor;
 	}
+
 	@Override
-	public void setColor( Colors cor )
+	public void setColor( Colors color )
 	{
-		// TODO Auto-generated method stub
-		
+		this.pieceColor = color;
+
 	}
+
 	@Override
 	public int getX0()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return this.x0;
 	}
+
 	@Override
 	public void setX0( int x0 )
 	{
-		// TODO Auto-generated method stub
-		
+		this.x0 = x0;
+
 	}
+
 	@Override
 	public int getY0()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return this.y0;
 	}
+
 	@Override
 	public void setY0( int y0 )
 	{
-		// TODO Auto-generated method stub
-		
+		this.y0 = y0;
+
 	}
 }
