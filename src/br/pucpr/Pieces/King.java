@@ -5,6 +5,7 @@ import br.pucpr.IPiece;
 
 public class King implements IPiece
 {
+	private double tst2;
 	private int tst;
 	private Colors pieceColor;
 	private int x0, y0;
