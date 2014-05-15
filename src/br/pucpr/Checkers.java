@@ -60,8 +60,7 @@ public class Checkers
 		this.table = table;
 	}
 
-	public int move( int xOr, int yOr, int xDest, int yDest )
-			throws MovErr
+	public int move( int xOr, int yOr, int xDest, int yDest ) throws MovErr
 	{
 
 		// verifica se existe uma Peca na posicao de origem
@@ -78,9 +77,9 @@ public class Checkers
 		if ( table.get( xDest ).get( yDest ) == null )
 		{
 			// testa possibilidade de ataque
-			if ( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) ) 
+			if ( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) )
 			{
-				
+				// TODO Atacar, remover peças atacadas
 			};
 
 			IPiece tmp = table.get( xOr ).get( yOr );
@@ -117,6 +116,5 @@ public class Checkers
 	{
 		this.selected = selected;
 	}
-
 
 }
