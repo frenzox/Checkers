@@ -15,10 +15,10 @@ public class Pawn implements IPiece
 	{
 		if ( x == x0 || y == y0 )
 			return false;
-		
+
 		if ( table.get( x ).get( y ) != null )
 			return false;
-		
+
 		if ( ( x > 7 ) || ( x < 0 ) )
 			return false;
 
@@ -60,7 +60,6 @@ public class Pawn implements IPiece
 		if ( Math.abs( x - x0 ) != 2 )
 			return false;
 
-		
 		if ( pieceColor == Colors.WHITE )
 		{
 
@@ -77,9 +76,7 @@ public class Pawn implements IPiece
 			}
 
 			return true;
-		}
-
-		if ( pieceColor == Colors.BLACK )
+		} else
 		{
 
 			if ( y < y0 )
