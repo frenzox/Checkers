@@ -1,12 +1,13 @@
+
 package br.pucpr;
 
 import java.util.LinkedList;
-
 import br.pucpr.Pieces.Pawn;
 
 public class Checkers
 {
 	private LinkedList<LinkedList<IPiece>> table = new LinkedList<LinkedList<IPiece>>();
+	private boolean selected = false;
 
 	public Checkers()
 	{
@@ -59,51 +60,64 @@ public class Checkers
 	{
 		this.table = table;
 	}
-	
-	 public int movimenta( int xOr, int yOr, int xDest, int yDest )
-	 throws MovErr
-	 {
-	
-	 // verifica se existe uma Peca na posicao de origem
-	 if ( table.get( xOr ).get( yOr ) == null )
-	 throw new MovErr( "Erro, posicao (x,y) sem peca: " + xOr + ","
-	 + yOr );
-	 /*
-	 * verifica se o movimento e valido
-	 */
-	 if ( !table.get( xOr ).get( yOr ).isValid( xDest, yDest, table ) )
-	 throw new MovErr( "Erro, posicao (x,y) invalida: " + xDest + ","
-	 + yDest );
-	 // verifica se a posicao de destino ja esta ocupada
-	 if ( table.get( xDest ).get( yDest ) == null )
-	 {
-	 // testa possibilidade de ataque
-	 if ( !( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) ) )
-	 throw new MovErr( "Erro, posicao (x,y) invalidaaa: " + xDest
-	 + "," + yDest );
-	
-	 IPiece tmp = table.get( xOr ).get( yOr );
-	 table.get( xOr ).set( yOr, null );
-	 table.get( xDest ).set( yOr, tmp );
-	 tmp.setX0( xDest );
-	 tmp.setY0( yDest );
-	 return 0;
-	
-	 } else
-	 {
-	
-	 /*
-	 * caso a posicao de destino nao esteja ocupada,atualiza a
-	 * posi�‹o
-	 */
-	
-	 IPiece tmp = table.get( xOr ).get( yOr );
-	 table.get( xOr ).set( yOr, null );
-	 table.get( xDest ).set( yOr, tmp );
-	 tmp.setX0( xDest );
-	 tmp.setY0( yDest );
-	 return 0;
-	
-	 }
+
+	public int move( int xOr, int yOr, int xDest, int yDest )
+			throws MovErr
+	{
+
+		// verifica se existe uma Peca na posicao de origem
+		if ( table.get( xOr ).get( yOr ) == null )
+			throw new MovErr( "Erro, posicao (x,y) sem peca: " + xOr + ","
+					+ yOr );
+		/*
+		 * verifica se o movimento e valido
+		 */
+		if ( !table.get( xOr ).get( yOr ).isValid( xDest, yDest, table ) )
+			throw new MovErr( "Erro, posicao (x,y) invalida: " + xDest + ","
+					+ yDest );
+		// verifica se a posicao de destino ja esta ocupada
+		if ( table.get( xDest ).get( yDest ) == null )
+		{
+			// testa possibilidade de ataque
+			if ( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) ) 
+			{
+				
+			};
+
+			IPiece tmp = table.get( xOr ).get( yOr );
+			table.get( xOr ).set( yOr, null );
+			table.get( xDest ).set( yDest, tmp );
+			tmp.setX0( xDest );
+			tmp.setY0( yDest );
+			return 0;
+
+		} else
+		{
+
+			/*
+			 * caso a posicao de destino nao esteja ocupada,atualiza a
+			 * posi�‹o
+			 */
+
+			IPiece tmp = table.get( xOr ).get( yOr );
+			table.get( xOr ).set( yOr, null );
+			table.get( xDest ).set( yOr, tmp );
+			tmp.setX0( xDest );
+			tmp.setY0( yDest );
+			return 0;
+		}
+
+	}
+
+	public boolean isSelected()
+	{
+		return selected;
+	}
+
+	public void setSelected( boolean selected )
+	{
+		this.selected = selected;
+	}
+
 
 }
