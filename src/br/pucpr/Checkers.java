@@ -60,7 +60,7 @@ public class Checkers
 		this.table = table;
 	}
 
-	public int move( int xOr, int yOr, int xDest, int yDest ) throws MovErr
+	public void move( int xOr, int yOr, int xDest, int yDest ) throws MovErr
 	{
 
 		// verifica se existe uma Peca na posicao de origem
@@ -87,22 +87,7 @@ public class Checkers
 			table.get( xDest ).set( yDest, tmp );
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
-			return 0;
 
-		} else
-		{
-
-			/*
-			 * caso a posicao de destino nao esteja ocupada,atualiza a
-			 * posi�‹o
-			 */
-
-			IPiece tmp = table.get( xOr ).get( yOr );
-			table.get( xOr ).set( yOr, null );
-			table.get( xDest ).set( yOr, tmp );
-			tmp.setX0( xDest );
-			tmp.setY0( yDest );
-			return 0;
 		}
 
 	}
