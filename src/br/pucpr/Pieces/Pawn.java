@@ -5,39 +5,43 @@ import java.util.LinkedList;
 import br.pucpr.Colors;
 import br.pucpr.IPiece;
 
-public class Pawn implements IPiece {
+public class Pawn implements IPiece
+{
 	private Colors pieceColor;
 	private int x0, y0;
 	private boolean hitOnce = false;
 	private int targetX, targetY;
 
 	@Override
-	public boolean isValid(int x, int y, LinkedList<LinkedList<IPiece>> table) {
-		if ((x > 7) || (x < 0))
+	public boolean isValid( int x, int y, LinkedList<LinkedList<IPiece>> table )
+	{
+		if ( ( x > 7 ) || ( x < 0 ) )
 			return false;
 
-		if ((y > 7) || (y < 0))
+		if ( ( y > 7 ) || ( y < 0 ) )
 			return false;
 
-		if ((x + y) % 2 == 0)
+		if ( ( x + y ) % 2 == 0 )
 			return false;
 
-		if (pieceColor == Colors.WHITE) {
-			if (x > x0)
+		if ( pieceColor == Colors.WHITE )
+		{
+			if ( x > x0 )
 				return false;
 
-			if ((Math.abs(x - x0) > 1)
-					&& !(table.get(x0).get(y0).isHit(x, y, table)))
+			if ( ( Math.abs( x - x0 ) > 1 )
+					&& !( table.get( x0 ).get( y0 ).isHit( x, y, table ) ) )
 				return false;
 
 		}
-		if (pieceColor == Colors.BLACK) {
+		if ( pieceColor == Colors.BLACK )
+		{
 
-			if (x < x0)
+			if ( x < x0 )
 				return false;
 
-			if ((Math.abs(x - x0) > 1)
-					&& !(table.get(x0).get(y0).isHit(x, y, table)))
+			if ( ( Math.abs( x - x0 ) > 1 )
+					&& !( table.get( x0 ).get( y0 ).isHit( x, y, table ) ) )
 				return false;
 
 		}
@@ -46,111 +50,135 @@ public class Pawn implements IPiece {
 	}
 
 	@Override
-	public boolean isHit(int x, int y, LinkedList<LinkedList<IPiece>> table) {
-		if (table.get(x).get(y) != null)
+	public boolean isHit( int x, int y, LinkedList<LinkedList<IPiece>> table )
+	{
+		if ( table.get( x ).get( y ) != null )
 			return false;
 
-		if (Math.abs(x - x0) != 2)
+		if ( Math.abs( x - x0 ) != 2 )
 			return false;
 
-		if (table.get(x0).get(y0).isHitOnce()) {
-			if ((y < y0) && (x > x0)) {
-				if (table.get(x + 1).get(y - 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+		if ( table.get( x0 ).get( y0 ).isHitOnce() )
+		{
+			if ( ( y < y0 ) && ( x > x0 ) )
+			{
+				if ( table.get( x + 1 ).get( y - 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
 
-			} else if ((y > y0) && (x > x0)) {
-				if (table.get(x + 1).get(y + 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+			} else if ( ( y > y0 ) && ( x > x0 ) )
+			{
+				if ( table.get( x + 1 ).get( y + 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
 
 			}
 
-			if ((y < y0) && (x < x0)) {
-				if (table.get(x - 1).get(y - 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+			if ( ( y < y0 ) && ( x < x0 ) )
+			{
+				if ( table.get( x - 1 ).get( y - 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
-			} else if ((y > y0) && (x < x0)) {
-				if (table.get(x - 1).get(y + 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+			} else if ( ( y > y0 ) && ( x < x0 ) )
+			{
+				if ( table.get( x - 1 ).get( y + 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
 			}
-			if (x < x0) {
-				if (y > y0) {
-					setTargetX (x0 - 1);
-					setTargetY (y0 + 1);
+			if ( x < x0 )
+			{
+				if ( y > y0 )
+				{
+					setTargetX( x0 - 1 );
+					setTargetY( y0 + 1 );
 					return true;
-				} else {
-					setTargetX (x0 - 1);
-					setTargetY (y0 - 1);
+				} else
+				{
+					setTargetX( x0 - 1 );
+					setTargetY( y0 - 1 );
 					return false;
 				}
 			}
-			if (x > x0) {
+			if ( x > x0 )
+			{
 
-				if (y > y0) {
-					setTargetX(x0 + 1);
-					setTargetY(y0 + 1);
+				if ( y > y0 )
+				{
+					setTargetX( x0 + 1 );
+					setTargetY( y0 + 1 );
 
 					return true;
-				} else {
-					setTargetX(x0 + 1);
-					setTargetY(y0 - 1);
+				} else
+				{
+					setTargetX( x0 + 1 );
+					setTargetY( y0 - 1 );
 					return true;
 				}
 			}
 			return true;
 		}
 
-		else if (pieceColor == Colors.WHITE) {
+		else if ( pieceColor == Colors.WHITE )
+		{
 
-			if (y < y0) {
-				if (table.get(x - 1).get(y - 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+			if ( y < y0 )
+			{
+				if ( table.get( x - 1 ).get( y - 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
-			} else if (y > y0) {
-				if (table.get(x - 1).get(y + 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+			} else if ( y > y0 )
+			{
+				if ( table.get( x - 1 ).get( y + 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
 			}
 
-			if (x < x0) {
-				if (y > y0) {
-					setTargetX (x0 - 1);
-					setTargetY (y0 + 1);
+			if ( x < x0 )
+			{
+				if ( y > y0 )
+				{
+					setTargetX( x0 - 1 );
+					setTargetY( y0 + 1 );
 					return true;
-				} else {
-					setTargetX (x0 - 1);
-					setTargetY (y0 - 1);
+				} else
+				{
+					setTargetX( x0 - 1 );
+					setTargetY( y0 - 1 );
 					return false;
 				}
 			}
-			
+
 			return false;
 		}
 
-		if (pieceColor == Colors.BLACK) {
+		if ( pieceColor == Colors.BLACK )
+		{
 
-			if (y < y0) {
-				if (table.get(x + 1).get(y - 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+			if ( y < y0 )
+			{
+				if ( table.get( x + 1 ).get( y - 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
-			} else if (y > y0) {
-				if (table.get(x + 1).get(y + 1).getColor() == table.get(x0)
-						.get(y0).getColor())
+			} else if ( y > y0 )
+			{
+				if ( table.get( x + 1 ).get( y + 1 ).getColor() == table
+						.get( x0 ).get( y0 ).getColor() )
 					return false;
 			}
 
-			if (x > x0) {
+			if ( x > x0 )
+			{
 
-				if (y > y0) {
-					setTargetX ( x0 + 1);
-					setTargetY (y0 + 1);
+				if ( y > y0 )
+				{
+					setTargetX( x0 + 1 );
+					setTargetY( y0 + 1 );
 
 					return true;
-				} else {
-					setTargetX (x0 + 1);
-					setTargetY (y0 - 1);
+				} else
+				{
+					setTargetX( x0 + 1 );
+					setTargetY( y0 - 1 );
 					return true;
 				}
 			}
@@ -159,61 +187,73 @@ public class Pawn implements IPiece {
 		return false;
 	}
 
-	public void setHitOnce(boolean hitOnce) {
+	public void setHitOnce( boolean hitOnce )
+	{
 		this.hitOnce = hitOnce;
 	}
 
-	public int getTargetX() {
+	public int getTargetX()
+	{
 		return targetX;
 	}
 
-	public void setTargetX(int targetX) {
+	public void setTargetX( int targetX )
+	{
 		this.targetX = targetX;
 	}
 
-	public int getTargetY() {
+	public int getTargetY()
+	{
 		return targetY;
 	}
 
-	public void setTargetY(int targetY) {
+	public void setTargetY( int targetY )
+	{
 		this.targetY = targetY;
 	}
 
 	@Override
-	public Colors getColor() {
+	public Colors getColor()
+	{
 		return this.pieceColor;
 	}
 
 	@Override
-	public void setColor(Colors color) {
+	public void setColor( Colors color )
+	{
 		this.pieceColor = color;
 
 	}
 
 	@Override
-	public int getX0() {
+	public int getX0()
+	{
 		return this.x0;
 	}
 
 	@Override
-	public void setX0(int x0) {
+	public void setX0( int x0 )
+	{
 		this.x0 = x0;
 
 	}
 
 	@Override
-	public int getY0() {
+	public int getY0()
+	{
 		return this.y0;
 	}
 
 	@Override
-	public void setY0(int y0) {
+	public void setY0( int y0 )
+	{
 		this.y0 = y0;
 
 	}
 
 	@Override
-	public boolean isHitOnce() {
+	public boolean isHitOnce()
+	{
 
 		return hitOnce;
 	}
