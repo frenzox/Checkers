@@ -15,6 +15,8 @@ public class Pawn implements IPiece
 	@Override
 	public boolean isValid( int x, int y, LinkedList<LinkedList<IPiece>> table )
 	{
+		if ( x == x0 || y == y0 )
+			return false;
 		if ( ( x > 7 ) || ( x < 0 ) )
 			return false;
 
@@ -29,8 +31,7 @@ public class Pawn implements IPiece
 			if ( x > x0 )
 				return false;
 
-			if ( ( Math.abs( x - x0 ) > 1 )
-					&& !( table.get( x0 ).get( y0 ).isHit( x, y, table ) ) )
+			if ( ( Math.abs( x - x0 ) > 1 ) && !( isHit( x, y, table ) ) )
 				return false;
 
 		}
@@ -40,8 +41,7 @@ public class Pawn implements IPiece
 			if ( x < x0 )
 				return false;
 
-			if ( ( Math.abs( x - x0 ) > 1 )
-					&& !( table.get( x0 ).get( y0 ).isHit( x, y, table ) ) )
+			if ( ( Math.abs( x - x0 ) > 1 ) && !( isHit( x, y, table ) ) )
 				return false;
 
 		}
@@ -58,7 +58,7 @@ public class Pawn implements IPiece
 		if ( Math.abs( x - x0 ) != 2 )
 			return false;
 
-		if ( table.get( x0 ).get( y0 ).isHitOnce() )
+		if ( isHitOnce() )
 		{
 			if ( ( y < y0 ) && ( x > x0 ) )
 			{
@@ -96,7 +96,7 @@ public class Pawn implements IPiece
 				{
 					setTargetX( x0 - 1 );
 					setTargetY( y0 - 1 );
-					return false;
+					return true;
 				}
 			}
 			if ( x > x0 )
@@ -123,13 +123,13 @@ public class Pawn implements IPiece
 
 			if ( y < y0 )
 			{
-				if ( table.get( x - 1 ).get( y - 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
+				if ( table.get( x0 - 1 ).get( y0 - 1 ) == null
+						|| table.get( x0 - 1 ).get( y0 - 1 ).getColor() == pieceColor )
 					return false;
 			} else if ( y > y0 )
 			{
-				if ( table.get( x - 1 ).get( y + 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
+				if ( table.get( x0 - 1 ).get( y0 + 1 ) == null
+						|| table.get( x0 - 1 ).get( y0 + 1 ).getColor() == pieceColor )
 					return false;
 			}
 
@@ -144,11 +144,11 @@ public class Pawn implements IPiece
 				{
 					setTargetX( x0 - 1 );
 					setTargetY( y0 - 1 );
-					return false;
+					return true;
 				}
 			}
 
-			return false;
+			return true;
 		}
 
 		if ( pieceColor == Colors.BLACK )
@@ -156,13 +156,13 @@ public class Pawn implements IPiece
 
 			if ( y < y0 )
 			{
-				if ( table.get( x + 1 ).get( y - 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
+				if ( table.get( x0 + 1 ).get( y0 - 1 ) == null
+						|| table.get( x0 + 1 ).get( y0 - 1 ).getColor() == pieceColor )
 					return false;
 			} else if ( y > y0 )
 			{
-				if ( table.get( x + 1 ).get( y + 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
+				if ( table.get( x0 + 1 ).get( y0 + 1 ) == null
+						|| table.get( x0 + 1 ).get( y0 + 1 ).getColor() == pieceColor )
 					return false;
 			}
 
@@ -184,7 +184,7 @@ public class Pawn implements IPiece
 			}
 			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public void setHitOnce( boolean hitOnce )
