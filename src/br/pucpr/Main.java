@@ -53,7 +53,7 @@ public class Main
 		final int org[] = { 0, 0 };
 
 		final JFrame frame = new JFrame( "Damas" );
-		frame.setSize( 800, 800 );
+		frame.setSize( 600, 625 );
 		frame.setLocationRelativeTo( null );
 		frame.setLayout( null );
 

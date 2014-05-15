@@ -17,6 +17,10 @@ public class Pawn implements IPiece
 	{
 		if ( x == x0 || y == y0 )
 			return false;
+		
+		if ( table.get( x ).get( y ) != null )
+			return false;
+		
 		if ( ( x > 7 ) || ( x < 0 ) )
 			return false;
 
@@ -139,12 +143,10 @@ public class Pawn implements IPiece
 				{
 					setTargetX( x0 - 1 );
 					setTargetY( y0 + 1 );
-					return true;
 				} else
 				{
 					setTargetX( x0 - 1 );
 					setTargetY( y0 - 1 );
-					return true;
 				}
 			}
 
