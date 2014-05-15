@@ -9,8 +9,6 @@ public class Pawn implements IPiece
 {
 	private Colors pieceColor;
 	private int x0, y0;
-	private boolean hitOnce = false;
-	private int targetX, targetY;
 
 	@Override
 	public boolean isValid( int x, int y, LinkedList<LinkedList<IPiece>> table )
@@ -62,67 +60,8 @@ public class Pawn implements IPiece
 		if ( Math.abs( x - x0 ) != 2 )
 			return false;
 
-		if ( isHitOnce() )
-		{
-			if ( ( y < y0 ) && ( x > x0 ) )
-			{
-				if ( table.get( x + 1 ).get( y - 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
-					return false;
-
-			} else if ( ( y > y0 ) && ( x > x0 ) )
-			{
-				if ( table.get( x + 1 ).get( y + 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
-					return false;
-
-			}
-
-			if ( ( y < y0 ) && ( x < x0 ) )
-			{
-				if ( table.get( x - 1 ).get( y - 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
-					return false;
-			} else if ( ( y > y0 ) && ( x < x0 ) )
-			{
-				if ( table.get( x - 1 ).get( y + 1 ).getColor() == table
-						.get( x0 ).get( y0 ).getColor() )
-					return false;
-			}
-			if ( x < x0 )
-			{
-				if ( y > y0 )
-				{
-					setTargetX( x0 - 1 );
-					setTargetY( y0 + 1 );
-					return true;
-				} else
-				{
-					setTargetX( x0 - 1 );
-					setTargetY( y0 - 1 );
-					return true;
-				}
-			}
-			if ( x > x0 )
-			{
-
-				if ( y > y0 )
-				{
-					setTargetX( x0 + 1 );
-					setTargetY( y0 + 1 );
-
-					return true;
-				} else
-				{
-					setTargetX( x0 + 1 );
-					setTargetY( y0 - 1 );
-					return true;
-				}
-			}
-			return true;
-		}
-
-		else if ( pieceColor == Colors.WHITE )
+		
+		if ( pieceColor == Colors.WHITE )
 		{
 
 			if ( y < y0 )
@@ -135,19 +74,6 @@ public class Pawn implements IPiece
 				if ( table.get( x0 - 1 ).get( y0 + 1 ) == null
 						|| table.get( x0 - 1 ).get( y0 + 1 ).getColor() == pieceColor )
 					return false;
-			}
-
-			if ( x < x0 )
-			{
-				if ( y > y0 )
-				{
-					setTargetX( x0 - 1 );
-					setTargetY( y0 + 1 );
-				} else
-				{
-					setTargetX( x0 - 1 );
-					setTargetY( y0 - 1 );
-				}
 			}
 
 			return true;
@@ -168,50 +94,8 @@ public class Pawn implements IPiece
 					return false;
 			}
 
-			if ( x > x0 )
-			{
-
-				if ( y > y0 )
-				{
-					setTargetX( x0 + 1 );
-					setTargetY( y0 + 1 );
-
-					return true;
-				} else
-				{
-					setTargetX( x0 + 1 );
-					setTargetY( y0 - 1 );
-					return true;
-				}
-			}
-			return false;
 		}
 		return true;
-	}
-
-	public void setHitOnce( boolean hitOnce )
-	{
-		this.hitOnce = hitOnce;
-	}
-
-	public int getTargetX()
-	{
-		return targetX;
-	}
-
-	public void setTargetX( int targetX )
-	{
-		this.targetX = targetX;
-	}
-
-	public int getTargetY()
-	{
-		return targetY;
-	}
-
-	public void setTargetY( int targetY )
-	{
-		this.targetY = targetY;
 	}
 
 	@Override
@@ -253,10 +137,4 @@ public class Pawn implements IPiece
 
 	}
 
-	@Override
-	public boolean isHitOnce()
-	{
-
-		return hitOnce;
-	}
 }

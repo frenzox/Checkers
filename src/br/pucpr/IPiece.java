@@ -20,6 +20,4 @@ public interface IPiece
 
 	public void setY0( int y0 );
 
-	public boolean isHitOnce();
-
 }
