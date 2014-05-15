@@ -61,8 +61,12 @@ public class Checkers
 		this.table = table;
 	}
 
+<<<<<<< HEAD
 	public int move( int xOr, int yOr, int xDest, int yDest )
 			throws MovErr
+=======
+	public void move( int xOr, int yOr, int xDest, int yDest ) throws MovErr
+>>>>>>> 565d1034f5e8deb0fa6a2cf23b685634c30e9435
 	{
 
 		// verifica se existe uma Peca na posicao de origem
@@ -79,9 +83,15 @@ public class Checkers
 		if ( table.get( xDest ).get( yDest ) == null )
 		{
 			// testa possibilidade de ataque
+<<<<<<< HEAD
 			if ( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) ) 
 			{
 				
+=======
+			if ( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) )
+			{
+				// TODO Atacar, remover peas atacadas
+>>>>>>> 565d1034f5e8deb0fa6a2cf23b685634c30e9435
 			};
 
 			IPiece tmp = table.get( xOr ).get( yOr );
@@ -89,6 +99,7 @@ public class Checkers
 			table.get( xDest ).set( yDest, tmp );
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
+<<<<<<< HEAD
 			return 0;
 
 		} else
@@ -105,6 +116,9 @@ public class Checkers
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
 			return 0;
+=======
+
+>>>>>>> 565d1034f5e8deb0fa6a2cf23b685634c30e9435
 		}
 
 	}
@@ -118,6 +132,9 @@ public class Checkers
 	{
 		this.selected = selected;
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 565d1034f5e8deb0fa6a2cf23b685634c30e9435
 
 }

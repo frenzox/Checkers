@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 package br.pucpr.Pieces;
 
@@ -147,6 +148,8 @@ public class King implements IPiece
 }
 
 
+=======
+>>>>>>> 565d1034f5e8deb0fa6a2cf23b685634c30e9435
 //package br.pucpr.Pieces;
 //
 //import java.util.LinkedList;
@@ -255,4 +258,7 @@ public class King implements IPiece
 //		return false;
 //	}
 //}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 565d1034f5e8deb0fa6a2cf23b685634c30e9435
