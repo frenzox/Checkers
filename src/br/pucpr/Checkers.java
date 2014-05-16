@@ -1,6 +1,8 @@
 package br.pucpr;
 
 import java.util.LinkedList;
+
+import br.pucpr.Pieces.King;
 import br.pucpr.Pieces.Pawn;
 
 public class Checkers
@@ -79,14 +81,40 @@ public class Checkers
 			// testa possibilidade de ataque
 			if ( table.get( xOr ).get( yOr ).isHit( xDest, yDest, table ) )
 			{
-				// TODO Atacar, remover peças atacadas
-			};
+				IPiece tmp = table.get( xOr ).get( yOr );
+				table.get( xOr ).set( yOr, null );
+				table.get( xDest ).set( yDest, tmp );
+				tmp.setX0( xDest );
+				tmp.setY0( yDest );
+
+				table.get( tmp.getTargetx() ).set( tmp.getTargety(), null );
+
+				if ( tmp.isKing() )
+				{
+					table.get( xDest ).set( yDest, new King() );
+					table.get( xDest ).get( yDest ).setX0( xDest );
+					table.get( xDest ).get( yDest ).setY0( yDest );
+					table.get( xDest ).get( yDest ).setColor( tmp.getColor() );
+
+				}
+
+				return;
+
+			}
 
 			IPiece tmp = table.get( xOr ).get( yOr );
 			table.get( xOr ).set( yOr, null );
 			table.get( xDest ).set( yDest, tmp );
 			tmp.setX0( xDest );
 			tmp.setY0( yDest );
+
+			if ( tmp.isKing() )
+			{
+				table.get( xDest ).set( yDest, new King() );
+				table.get( xDest ).get( yDest ).setX0( xDest );
+				table.get( xDest ).get( yDest ).setY0( yDest );
+				table.get( xDest ).get( yDest ).setColor( tmp.getColor() );
+			}
 
 		}
 

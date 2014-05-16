@@ -19,5 +19,19 @@ public interface IPiece
 	public int getY0();
 
 	public void setY0( int y0 );
+	
+	public int getTargetx();
+	
+	public int getTargety();
+	
+	public void setTargetx(int targetx);
+	
+	public void setTargety(int targety);
+
+	public boolean isKing();
+	
+	
+
+	
 
 }
