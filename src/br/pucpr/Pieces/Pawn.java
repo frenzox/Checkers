@@ -9,6 +9,7 @@ public class Pawn implements IPiece
 {
 	private Colors pieceColor;
 	private int x0, y0;
+	private int targetx=0,targety=0;
 
 	@Override
 	public boolean isValid( int x, int y, LinkedList<LinkedList<IPiece>> table )
@@ -68,11 +69,15 @@ public class Pawn implements IPiece
 				if ( table.get( x0 - 1 ).get( y0 - 1 ) == null
 						|| table.get( x0 - 1 ).get( y0 - 1 ).getColor() == pieceColor )
 					return false;
+				setTargetx(x0-1);
+				setTargety(y0-1);
 			} else if ( y > y0 )
 			{
 				if ( table.get( x0 - 1 ).get( y0 + 1 ) == null
 						|| table.get( x0 - 1 ).get( y0 + 1 ).getColor() == pieceColor )
 					return false;
+				setTargetx(x0-1);
+				setTargety(y0+1);
 			}
 
 			return true;
@@ -84,15 +89,49 @@ public class Pawn implements IPiece
 				if ( table.get( x0 + 1 ).get( y0 - 1 ) == null
 						|| table.get( x0 + 1 ).get( y0 - 1 ).getColor() == pieceColor )
 					return false;
+				setTargetx(x0+1);
+				setTargety(y0-1);
 			} else if ( y > y0 )
 			{
 				if ( table.get( x0 + 1 ).get( y0 + 1 ) == null
 						|| table.get( x0 + 1 ).get( y0 + 1 ).getColor() == pieceColor )
 					return false;
+				setTargetx(x0+1);
+				setTargety(y0+1);
 			}
 
 		}
 		return true;
+	}
+
+	public boolean isKing(){
+		
+		if (pieceColor == Colors.WHITE){
+			
+			if (x0 == 0)
+				return true;
+		}
+		if (pieceColor == Colors.BLACK){
+			if (x0 == 7)
+				return true;
+		}
+		return false;
+	}
+
+	public int getTargetx() {
+		return targetx;
+	}
+
+	public void setTargetx(int targetx) {
+		this.targetx = targetx;
+	}
+
+	public int getTargety() {
+		return targety;
+	}
+
+	public void setTargety(int targety) {
+		this.targety = targety;
 	}
 
 	@Override

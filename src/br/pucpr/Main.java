@@ -126,9 +126,13 @@ public class Main
 		LinkedList<LinkedList<IPiece>> table = t.getTable();
 
 		ImageIcon whitePiece = new ImageIcon(
-				"../Checkers/src/br/pucpr/img/white.png" );
+				"../Damas2/src/br/pucpr/img/white.png" );
 		ImageIcon blackPiece = new ImageIcon(
-				"../Checkers/src/br/pucpr/img/black.png" );
+				"../Damas2/src/br/pucpr/img/black.png" );
+		ImageIcon blackKPiece = new ImageIcon(
+				"../Damas2/src/br/pucpr/img/blackK.png" );
+		ImageIcon whiteKPiece = new ImageIcon(
+				"../Damas2/src/br/pucpr/img/whiteKing.png" );
 
 		for ( int i = 0; i < 8; i++ )
 		{
@@ -139,10 +143,19 @@ public class Main
 
 				if ( piece != null )
 				{
-					if ( piece.getColor() == Colors.BLACK )
+					if ( piece.getColor() == Colors.BLACK ){
 						buttons[i][j].setIcon( blackPiece );
-					else
+						if(piece.isKing()){
+						buttons[i][j].setIcon(blackKPiece);
+						}
+							
+					}
+					else{
 						buttons[i][j].setIcon( whitePiece );
+						if(piece.isKing()){
+							buttons[i][j].setIcon(whiteKPiece);
+							}
+					}
 				} else
 					buttons[i][j].setIcon( null );
 
