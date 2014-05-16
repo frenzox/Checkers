@@ -27,6 +27,8 @@ public class Main
 {
 	private boolean flag = false;
 	static JButtonCheckers[][] buttons;
+	static int x = 0;
+	static int y = 0;
 
 	public static void main( String[] args )
 	{
@@ -48,9 +50,8 @@ public class Main
 
 		}
 
-		final Checkers table = new Checkers();
+		final Checkers game = new Checkers();
 		buttons = new JButtonCheckers[8][8];
-		final int org[] = { 0, 0 };
 
 		final JFrame frame = new JFrame( "Damas" );
 		frame.setSize( 600, 625 );
@@ -88,42 +89,45 @@ public class Main
 					{
 						JButtonCheckers btn = ( JButtonCheckers ) e.getSource();
 
-						if ( table.isSelected() )
+						if ( game.isSelected() )
 						{
 							try
 							{
-								table.move( org[0], org[1], btn.row, btn.col );
+
+								game.act( new Action( x, y, btn.row, btn.col ) );
 
 							} catch ( MovErr e1 )
 							{
 								JOptionPane.showMessageDialog( frame, e1 );
 
 							}
-							table.setSelected( false );
-							org[0] = 0;
-							org[1] = 0;
+
+							game.setSelected( false );
+
+							x = 0;
+							y = 0;
 
 						} else
 						{
-							org[0] = btn.row;
-							org[1] = btn.col;
-							table.setSelected( true );
+							x = btn.row;
+							y = btn.col;
+							game.setSelected( true );
 						}
 
-						printTable( table );
+						printTable( game );
 					}
 				} );
 			}
 		}
 
-		printTable( table );
+		printTable( game );
 		frame.add( contentPane );
 		frame.setVisible( true );
 	}
 
-	public static void printTable( Checkers t )
+	public static void printTable( Checkers game )
 	{
-		LinkedList<LinkedList<IPiece>> table = t.getTable();
+		LinkedList<LinkedList<IPiece>> table = game.getTable();
 
 		ImageIcon whitePiece = new ImageIcon(
 				"../Damas2/src/br/pucpr/img/white.png" );
@@ -143,18 +147,21 @@ public class Main
 
 				if ( piece != null )
 				{
-					if ( piece.getColor() == Colors.BLACK ){
+					if ( piece.getColor() == Colors.BLACK )
+					{
 						buttons[i][j].setIcon( blackPiece );
-						if(piece.isKing()){
-						buttons[i][j].setIcon(blackKPiece);
+						if ( piece.isKing() )
+						{
+							buttons[i][j].setIcon( blackKPiece );
 						}
-							
-					}
-					else{
+
+					} else
+					{
 						buttons[i][j].setIcon( whitePiece );
-						if(piece.isKing()){
-							buttons[i][j].setIcon(whiteKPiece);
-							}
+						if ( piece.isKing() )
+						{
+							buttons[i][j].setIcon( whiteKPiece );
+						}
 					}
 				} else
 					buttons[i][j].setIcon( null );
