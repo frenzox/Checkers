@@ -8,9 +8,9 @@ public interface IPiece
 
 	public boolean isHit( int x, int y, LinkedList<LinkedList<IPiece>> table );
 
-	public Colors getColor();
+	public Player getPlayer();
 
-	public void setColor( Colors cor );
+	public void setPlayer( Player player );
 
 	public int getX0();
 

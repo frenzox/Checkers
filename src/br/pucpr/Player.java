@@ -1,6 +1,6 @@
 package br.pucpr;
 
-public enum Colors
+public enum Player
 {
 	WHITE, BLACK, YELLOW;
 }

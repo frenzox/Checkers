@@ -25,7 +25,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class Main
 {
-	private boolean flag = false;
+
 	static JButtonCheckers[][] buttons;
 	static int x = 0;
 	static int y = 0;
@@ -127,16 +127,16 @@ public class Main
 
 	public static void printTable( Checkers game )
 	{
-		LinkedList<LinkedList<IPiece>> table = game.getTable();
+		LinkedList<LinkedList<IPiece>> table = game.getStatus();
 
 		ImageIcon whitePiece = new ImageIcon(
-				"../Damas2/src/br/pucpr/img/white.png" );
+				"../Checkers/src/br/pucpr/img/white.png" );
 		ImageIcon blackPiece = new ImageIcon(
-				"../Damas2/src/br/pucpr/img/black.png" );
+				"../Checkers/src/br/pucpr/img/black.png" );
 		ImageIcon blackKPiece = new ImageIcon(
-				"../Damas2/src/br/pucpr/img/blackK.png" );
+				"../Checkers/src/br/pucpr/img/blackK.png" );
 		ImageIcon whiteKPiece = new ImageIcon(
-				"../Damas2/src/br/pucpr/img/whiteKing.png" );
+				"../Checkers/src/br/pucpr/img/whiteKing.png" );
 
 		for ( int i = 0; i < 8; i++ )
 		{
@@ -147,7 +147,7 @@ public class Main
 
 				if ( piece != null )
 				{
-					if ( piece.getColor() == Colors.BLACK )
+					if ( piece.getPlayer() == Player.BLACK )
 					{
 						buttons[i][j].setIcon( blackPiece );
 						if ( piece.isKing() )

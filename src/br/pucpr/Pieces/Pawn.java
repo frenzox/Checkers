@@ -2,14 +2,14 @@ package br.pucpr.Pieces;
 
 import java.util.LinkedList;
 
-import br.pucpr.Colors;
+import br.pucpr.Player;
 import br.pucpr.IPiece;
 
 public class Pawn implements IPiece
 {
-	private Colors pieceColor;
+	private Player player;
 	private int x0, y0;
-	private int targetx=0,targety=0;
+	private int targetX = 0, targetY = 0;
 
 	@Override
 	public boolean isValid( int x, int y, LinkedList<LinkedList<IPiece>> table )
@@ -29,7 +29,7 @@ public class Pawn implements IPiece
 		if ( ( x + y ) % 2 == 0 )
 			return false;
 
-		if ( pieceColor == Colors.WHITE )
+		if ( player == Player.WHITE )
 		{
 			if ( x > x0 )
 				return false;
@@ -38,7 +38,7 @@ public class Pawn implements IPiece
 				return false;
 
 		}
-		if ( pieceColor == Colors.BLACK )
+		if ( player == Player.BLACK )
 		{
 
 			if ( x < x0 )
@@ -61,23 +61,23 @@ public class Pawn implements IPiece
 		if ( Math.abs( x - x0 ) != 2 )
 			return false;
 
-		if ( pieceColor == Colors.WHITE )
+		if ( player == Player.WHITE )
 		{
 
 			if ( y < y0 )
 			{
 				if ( table.get( x0 - 1 ).get( y0 - 1 ) == null
-						|| table.get( x0 - 1 ).get( y0 - 1 ).getColor() == pieceColor )
+						|| table.get( x0 - 1 ).get( y0 - 1 ).getPlayer() == player )
 					return false;
-				setTargetx(x0-1);
-				setTargety(y0-1);
+				setTargetx( x0 - 1 );
+				setTargety( y0 - 1 );
 			} else if ( y > y0 )
 			{
 				if ( table.get( x0 - 1 ).get( y0 + 1 ) == null
-						|| table.get( x0 - 1 ).get( y0 + 1 ).getColor() == pieceColor )
+						|| table.get( x0 - 1 ).get( y0 + 1 ).getPlayer() == player )
 					return false;
-				setTargetx(x0-1);
-				setTargety(y0+1);
+				setTargetx( x0 - 1 );
+				setTargety( y0 + 1 );
 			}
 
 			return true;
@@ -87,63 +87,70 @@ public class Pawn implements IPiece
 			if ( y < y0 )
 			{
 				if ( table.get( x0 + 1 ).get( y0 - 1 ) == null
-						|| table.get( x0 + 1 ).get( y0 - 1 ).getColor() == pieceColor )
+						|| table.get( x0 + 1 ).get( y0 - 1 ).getPlayer() == player )
 					return false;
-				setTargetx(x0+1);
-				setTargety(y0-1);
+				setTargetx( x0 + 1 );
+				setTargety( y0 - 1 );
 			} else if ( y > y0 )
 			{
 				if ( table.get( x0 + 1 ).get( y0 + 1 ) == null
-						|| table.get( x0 + 1 ).get( y0 + 1 ).getColor() == pieceColor )
+						|| table.get( x0 + 1 ).get( y0 + 1 ).getPlayer() == player )
 					return false;
-				setTargetx(x0+1);
-				setTargety(y0+1);
+				setTargetx( x0 + 1 );
+				setTargety( y0 + 1 );
 			}
 
 		}
 		return true;
 	}
 
-	public boolean isKing(){
-		
-		if (pieceColor == Colors.WHITE){
-			
-			if (x0 == 0)
+	public boolean isKing()
+	{
+
+		if ( player == Player.WHITE )
+		{
+
+			if ( x0 == 0 )
 				return true;
 		}
-		if (pieceColor == Colors.BLACK){
-			if (x0 == 7)
+		if ( player == Player.BLACK )
+		{
+			if ( x0 == 7 )
 				return true;
 		}
 		return false;
 	}
 
-	public int getTargetx() {
-		return targetx;
+	public int getTargetx()
+	{
+		return targetX;
 	}
 
-	public void setTargetx(int targetx) {
-		this.targetx = targetx;
+	public void setTargetx( int targetX )
+	{
+		this.targetX = targetX;
 	}
 
-	public int getTargety() {
-		return targety;
+	public int getTargety()
+	{
+		return targetY;
 	}
 
-	public void setTargety(int targety) {
-		this.targety = targety;
+	public void setTargety( int targetY )
+	{
+		this.targetY = targetY;
 	}
 
 	@Override
-	public Colors getColor()
+	public Player getPlayer()
 	{
-		return this.pieceColor;
+		return this.player;
 	}
 
 	@Override
-	public void setColor( Colors color )
+	public void setPlayer( Player player )
 	{
-		this.pieceColor = color;
+		this.player = player;
 
 	}
 

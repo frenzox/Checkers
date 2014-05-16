@@ -8,23 +8,19 @@ import br.pucpr.Pieces.Pawn;
 public class Checkers
 {
 
-	private LinkedList<LinkedList<IPiece>> table = new LinkedList<LinkedList<IPiece>>();
+	private LinkedList<LinkedList<IPiece>> status = new LinkedList<LinkedList<IPiece>>();
 	private boolean selected = false;
-
-	public Checkers( LinkedList<LinkedList<IPiece>> table )
-	{
-		this.table = table;
-	}
+	private Player turn;
 
 	public Checkers()
 	{
 		for ( int i = 0; i < 8; i++ )
 		{
-			table.add( new LinkedList<IPiece>() );
+			status.add( new LinkedList<IPiece>() );
 
 			for ( int j = 0; j < 8; j++ )
 			{
-				table.get( i ).add( null );
+				status.get( i ).add( null );
 			}
 		}
 
@@ -37,19 +33,19 @@ public class Checkers
 
 					if ( i <= 2 )
 					{
-						table.get( i ).set( j, new Pawn() );
-						table.get( i ).get( j ).setX0( i );
-						table.get( i ).get( j ).setY0( j );
-						table.get( i ).get( j ).setColor( Colors.BLACK );
+						status.get( i ).set( j, new Pawn() );
+						status.get( i ).get( j ).setX0( i );
+						status.get( i ).get( j ).setY0( j );
+						status.get( i ).get( j ).setPlayer( Player.BLACK );
 
 					}
 					if ( i >= 5 )
 					{
 
-						table.get( i ).set( j, new Pawn() );
-						table.get( i ).get( j ).setX0( i );
-						table.get( i ).get( j ).setY0( j );
-						table.get( i ).get( j ).setColor( Colors.WHITE );
+						status.get( i ).set( j, new Pawn() );
+						status.get( i ).get( j ).setX0( i );
+						status.get( i ).get( j ).setY0( j );
+						status.get( i ).get( j ).setPlayer( Player.WHITE );
 
 					}
 
@@ -58,46 +54,51 @@ public class Checkers
 		}
 	}
 
+	public Checkers( LinkedList<LinkedList<IPiece>> status )
+	{
+		this.status = status;
+	}
+
 	public void act( Action act ) throws MovErr
 	{
 
 		// verifica se existe uma Peca na posicao de origem
-		if ( table.get( act.getxOrigin() ).get( act.getyOrigin() ) == null )
+		if ( status.get( act.getxOrigin() ).get( act.getyOrigin() ) == null )
 			throw new MovErr( "Erro, posicao (x,y) sem peca: "
 					+ act.getxOrigin() + "," + act.getyOrigin() );
 		/*
 		 * verifica se o movimento e valido
 		 */
-		if ( !table.get( act.getxOrigin() ).get( act.getyOrigin() )
-				.isValid( act.getxDest(), act.getyDest(), table ) )
+		if ( !status.get( act.getxOrigin() ).get( act.getyOrigin() )
+				.isValid( act.getxDest(), act.getyDest(), status ) )
 			throw new MovErr( "Erro, posicao (x,y) invalida: " + act.getxDest()
 					+ "," + act.getyDest() );
 		// verifica se a posicao de destino ja esta ocupada
-		if ( table.get( act.getxDest() ).get( act.getyDest() ) == null )
+		if ( status.get( act.getxDest() ).get( act.getyDest() ) == null )
 		{
 			// testa possibilidade de ataque
-			if ( table.get( act.getxOrigin() ).get( act.getyOrigin() )
-					.isHit( act.getxDest(), act.getyDest(), table ) )
+			if ( status.get( act.getxOrigin() ).get( act.getyOrigin() )
+					.isHit( act.getxDest(), act.getyDest(), status ) )
 			{
-				IPiece tmp = table.get( act.getxOrigin() ).get(
+				IPiece tmp = status.get( act.getxOrigin() ).get(
 						act.getyOrigin() );
-				table.get( act.getxOrigin() ).set( act.getyOrigin(), null );
-				table.get( act.getxDest() ).set( act.getyDest(), tmp );
+				status.get( act.getxOrigin() ).set( act.getyOrigin(), null );
+				status.get( act.getxDest() ).set( act.getyDest(), tmp );
 				tmp.setX0( act.getxDest() );
 				tmp.setY0( act.getyDest() );
 
-				table.get( tmp.getTargetx() ).set( tmp.getTargety(), null );
+				status.get( tmp.getTargetx() ).set( tmp.getTargety(), null );
 
 				if ( tmp.isKing() )
 				{
-					table.get( act.getxDest() )
-							.set( act.getyDest(), new King() );
-					table.get( act.getxDest() ).get( act.getyDest() )
+					status.get( act.getxDest() ).set( act.getyDest(),
+							new King() );
+					status.get( act.getxDest() ).get( act.getyDest() )
 							.setX0( act.getxDest() );
-					table.get( act.getxDest() ).get( act.getyDest() )
+					status.get( act.getxDest() ).get( act.getyDest() )
 							.setY0( act.getyDest() );
-					table.get( act.getxDest() ).get( act.getyDest() )
-							.setColor( tmp.getColor() );
+					status.get( act.getxDest() ).get( act.getyDest() )
+							.setPlayer( tmp.getPlayer() );
 
 				}
 
@@ -105,47 +106,63 @@ public class Checkers
 
 			}
 
-			IPiece tmp = table.get( act.getxOrigin() ).get( act.getyOrigin() );
-			table.get( act.getxOrigin() ).set( act.getyOrigin(), null );
-			table.get( act.getxDest() ).set( act.getyDest(), tmp );
+			IPiece tmp = status.get( act.getxOrigin() ).get( act.getyOrigin() );
+			status.get( act.getxOrigin() ).set( act.getyOrigin(), null );
+			status.get( act.getxDest() ).set( act.getyDest(), tmp );
 			tmp.setX0( act.getxDest() );
 			tmp.setY0( act.getyDest() );
 
 			if ( tmp.isKing() )
 			{
-				table.get( act.getxDest() ).set( act.getyDest(), new King() );
-				table.get( act.getxDest() ).get( act.getyDest() )
+				status.get( act.getxDest() ).set( act.getyDest(), new King() );
+				status.get( act.getxDest() ).get( act.getyDest() )
 						.setX0( act.getxDest() );
-				table.get( act.getxDest() ).get( act.getyDest() )
+				status.get( act.getxDest() ).get( act.getyDest() )
 						.setY0( act.getyDest() );
-				table.get( act.getxDest() ).get( act.getyDest() )
-						.setColor( tmp.getColor() );
+				status.get( act.getxDest() ).get( act.getyDest() )
+						.setPlayer( tmp.getPlayer() );
 			}
 
 		}
 
 	}
 
-	public LinkedList<LinkedList<IPiece>> getTable()
+	/**
+	 * 
+	 * @return game status
+	 */
+	public LinkedList<LinkedList<IPiece>> getStatus()
 	{
-		return table;
+		return status;
 	}
 
-	public void setTable( LinkedList<LinkedList<IPiece>> table )
+	/**
+	 * @param status
+	 */
+	public void setStatus( LinkedList<LinkedList<IPiece>> status )
 	{
-		this.table = table;
+		this.status = status;
 	}
 
+	/**
+	 * @return true or false, depends if any piece has been selected
+	 */
 	public boolean isSelected()
 	{
 		return selected;
 	}
 
+	/**
+	 * @param selected
+	 */
 	public void setSelected( boolean selected )
 	{
 		this.selected = selected;
 	}
 
+	/**
+	 * @return List of possible actions
+	 */
 	public LinkedList<Action> getActions()
 	{
 		return null;
