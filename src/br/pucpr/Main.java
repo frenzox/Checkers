@@ -18,6 +18,8 @@ import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -27,6 +29,8 @@ public class Main
 {
 
 	static JButtonCheckers[][] buttons;
+	static JFrame frame;
+	static Checkers game;	
 	static int x = 0;
 	static int y = 0;
 
@@ -38,29 +42,29 @@ public class Main
 					.getCrossPlatformLookAndFeelClassName() );
 		} catch ( UnsupportedLookAndFeelException e )
 		{
-
+			e.printStackTrace();
 		} catch ( ClassNotFoundException e )
 		{
-
+			e.printStackTrace();
 		} catch ( InstantiationException e )
 		{
-
+			e.printStackTrace();
 		} catch ( IllegalAccessException e )
 		{
-
+			e.printStackTrace();
 		}
 
-		final Checkers game = new Checkers();
+		game = new Checkers();
 		buttons = new JButtonCheckers[8][8];
 
-		final JFrame frame = new JFrame( "Damas" );
+		frame = new JFrame( "Damas" );
 		frame.setSize( 600, 625 );
 		frame.setLocationRelativeTo( null );
 		frame.setLayout( null );
 
 		JPanel contentPane = new JPanel();
+		
 		contentPane.setLayout( new GridLayout( 8, 8 ) );
-
 		contentPane.setBounds( 0, 0, 600, 600 );
 
 		for ( int i = 0; i < 8; i++ )

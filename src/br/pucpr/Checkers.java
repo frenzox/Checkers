@@ -93,12 +93,11 @@ public class Checkers
 				{
 					status.get( act.getxDest() ).set( act.getyDest(),
 							new King() );
-					status.get( act.getxDest() ).get( act.getyDest() )
-							.setX0( act.getxDest() );
-					status.get( act.getxDest() ).get( act.getyDest() )
-							.setY0( act.getyDest() );
-					status.get( act.getxDest() ).get( act.getyDest() )
-							.setPlayer( tmp.getPlayer() );
+
+					tmp = status.get( act.getxDest() ).get( act.getyDest() );
+					tmp.setX0( act.getxDest() );
+					tmp.setY0( act.getyDest() );
+					tmp.setPlayer( tmp.getPlayer() );
 
 				}
 
@@ -125,6 +124,84 @@ public class Checkers
 
 		}
 
+	}
+
+	/**
+	 * @return List of possible actions for a player
+	 */
+	public LinkedList<Action> getActions( Player player )
+	{
+		LinkedList<Action> actions = new LinkedList<Action>();
+
+		for ( LinkedList<IPiece> l : this.getStatus() )
+		{
+			for ( IPiece p : l )
+			{
+				if ( p.getPlayer() == player )
+				{
+					if ( p.getPlayer() == Player.WHITE )
+					{
+						if ( this.status.get( p.getX0() - 1 ).get(
+								p.getY0() + 1 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() - 1, p.getY0() + 1 ) );
+						} else if ( this.status.get( p.getX0() - 1 )
+								.get( p.getY0() + 1 ).getPlayer() == Player.BLACK
+								&& this.status.get( p.getX0() - 2 ).get(
+										p.getY0() + 2 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() - 2, p.getY0() + 2 ) );
+						}
+						if ( this.status.get( p.getX0() - 1 ).get(
+								p.getY0() - 1 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() - 1, p.getY0() - 1 ) );
+						} else if ( this.status.get( p.getX0() - 1 )
+								.get( p.getY0() - 1 ).getPlayer() == Player.BLACK
+								&& this.status.get( p.getX0() - 2 ).get(
+										p.getY0() - 2 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() - 2, p.getY0() - 2 ) );
+						}
+					} else
+					{
+						if ( this.status.get( p.getX0() + 1 ).get(
+								p.getY0() + 1 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() + 1, p.getY0() + 1 ) );
+						} else if ( this.status.get( p.getX0() + 1 )
+								.get( p.getY0() + 1 ).getPlayer() == Player.WHITE
+								&& this.status.get( p.getX0() + 2 ).get(
+										p.getY0() + 2 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() + 2, p.getY0() + 2 ) );
+						}
+						if ( this.status.get( p.getX0() + 1 ).get(
+								p.getY0() - 1 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() + 1, p.getY0() - 1 ) );
+						} else if ( this.status.get( p.getX0() + 1 )
+								.get( p.getY0() - 1 ).getPlayer() == Player.WHITE
+								&& this.status.get( p.getX0() + 2 ).get(
+										p.getY0() - 2 ) == null )
+						{
+							actions.add( new Action( p.getX0(), p.getY0(), p
+									.getX0() + 2, p.getY0() - 2 ) );
+						}
+					}
+				}
+
+			}
+		}
+
+		return actions;
 	}
 
 	/**
@@ -158,14 +235,6 @@ public class Checkers
 	public void setSelected( boolean selected )
 	{
 		this.selected = selected;
-	}
-
-	/**
-	 * @return List of possible actions
-	 */
-	public LinkedList<Action> getActions()
-	{
-		return null;
 	}
 
 }

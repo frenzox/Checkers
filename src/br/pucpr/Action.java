@@ -89,4 +89,16 @@ public class Action
 		this.yDest = yDest;
 	}
 
+	public boolean compare( Action act )
+	{
+		if ( act.getxOrigin() == this.getxOrigin()
+				&& act.getyOrigin() == this.getyOrigin()
+				&& act.getxDest() == this.getxDest()
+				&& act.getyDest() == this.getyDest() )
+			return true;
+
+		return false;
+
+	}
+
 }
