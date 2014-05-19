@@ -88,7 +88,7 @@ public class Main
 				{
 					@Override
 					/**
-					 * magia negra
+					 * MAGIA NEGRA
 					 */
 					public void actionPerformed( ActionEvent e )
 					{

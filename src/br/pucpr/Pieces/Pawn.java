@@ -10,6 +10,7 @@ public class Pawn implements IPiece
 	private Player player;
 	private int x0, y0;
 	private int targetX = 0, targetY = 0;
+	private boolean combo = false;
 
 	@Override
 	public boolean isValid( int x, int y, LinkedList<LinkedList<IPiece>> table )
@@ -41,7 +42,7 @@ public class Pawn implements IPiece
 		if ( player == Player.BLACK )
 		{
 
-			if ( x < x0 )
+			if ( x < x0 && !this.isCombo() )
 				return false;
 
 			if ( ( Math.abs( x - x0 ) > 1 ) && !( isHit( x, y, table ) ) )
@@ -61,6 +62,29 @@ public class Pawn implements IPiece
 		if ( Math.abs( x - x0 ) != 2 )
 			return false;
 
+		if ( this.isCombo() )
+		{
+			if ( y < y0 )
+			{
+				this.setTargety( y0 - 1 );
+				if ( x < x0 )
+					this.setTargetx( x0 - 1 );
+				else
+					this.setTargetx( x0 + 1 );
+			}
+			if ( y > y0 )
+			{
+				this.setTargety( y0 + 1 );
+				if ( x < x0 )
+					this.setTargetx( x0 - 1 );
+				else
+					this.setTargetx( x0 + 1 );
+
+			}
+
+			return true;
+		}
+
 		if ( player == Player.WHITE )
 		{
 
@@ -69,18 +93,23 @@ public class Pawn implements IPiece
 				if ( table.get( x0 - 1 ).get( y0 - 1 ) == null
 						|| table.get( x0 - 1 ).get( y0 - 1 ).getPlayer() == player )
 					return false;
+
 				setTargetx( x0 - 1 );
 				setTargety( y0 - 1 );
+
 			} else if ( y > y0 )
 			{
 				if ( table.get( x0 - 1 ).get( y0 + 1 ) == null
 						|| table.get( x0 - 1 ).get( y0 + 1 ).getPlayer() == player )
 					return false;
+
 				setTargetx( x0 - 1 );
 				setTargety( y0 + 1 );
+
 			}
 
 			return true;
+
 		} else
 		{
 
@@ -178,6 +207,23 @@ public class Pawn implements IPiece
 	{
 		this.y0 = y0;
 
+	}
+
+	/**
+	 * @return the combo
+	 */
+	public boolean isCombo()
+	{
+		return combo;
+	}
+
+	/**
+	 * @param combo
+	 *            the combo to set
+	 */
+	public void setCombo( boolean combo )
+	{
+		this.combo = combo;
 	}
 
 }
