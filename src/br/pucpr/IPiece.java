@@ -8,9 +8,9 @@ public interface IPiece
 
 	public boolean isHit( int x, int y, LinkedList<LinkedList<IPiece>> table );
 
-	public Colors getColor();
+	public Player getPlayer();
 
-	public void setColor( Colors cor );
+	public void setPlayer( Player player );
 
 	public int getX0();
 
@@ -19,19 +19,19 @@ public interface IPiece
 	public int getY0();
 
 	public void setY0( int y0 );
-	
+
 	public int getTargetx();
-	
+
 	public int getTargety();
-	
-	public void setTargetx(int targetx);
-	
-	public void setTargety(int targety);
+
+	public void setTargetx( int targetx );
+
+	public void setTargety( int targety );
 
 	public boolean isKing();
-	
-	
 
-	
+	public void setCombo( boolean combo );
+
+	public boolean isCombo();
 
 }
