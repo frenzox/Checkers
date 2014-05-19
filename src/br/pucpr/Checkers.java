@@ -59,20 +59,20 @@ public class Checkers
 		this.status = status;
 	}
 
-	public void act( Action act ) throws MovErr
+	public LinkedList<Action> act( Action act ) throws MovErr
 	{
 
 		// verifica se existe uma Peca na posicao de origem
 		if ( status.get( act.getxOrigin() ).get( act.getyOrigin() ) == null )
-			throw new MovErr( "Erro, posicao (x,y) sem peca: "
-					+ act.getxOrigin() + "," + act.getyOrigin() );
+			throw new MovErr( "Erro, posicao (x,y) sem peca: " + act.getxOrigin() + ","
+					+ act.getyOrigin() );
 		/*
 		 * verifica se o movimento e valido
 		 */
 		if ( !status.get( act.getxOrigin() ).get( act.getyOrigin() )
 				.isValid( act.getxDest(), act.getyDest(), status ) )
-			throw new MovErr( "Erro, posicao (x,y) invalida: " + act.getxDest()
-					+ "," + act.getyDest() );
+			throw new MovErr( "Erro, posicao (x,y) invalida: " + act.getxDest() + ","
+					+ act.getyDest() );
 		// verifica se a posicao de destino ja esta ocupada
 		if ( status.get( act.getxDest() ).get( act.getyDest() ) == null )
 		{
@@ -80,8 +80,7 @@ public class Checkers
 			if ( status.get( act.getxOrigin() ).get( act.getyOrigin() )
 					.isHit( act.getxDest(), act.getyDest(), status ) )
 			{
-				IPiece tmp = status.get( act.getxOrigin() ).get(
-						act.getyOrigin() );
+				IPiece tmp = status.get( act.getxOrigin() ).get( act.getyOrigin() );
 				status.get( act.getxOrigin() ).set( act.getyOrigin(), null );
 				status.get( act.getxDest() ).set( act.getyDest(), tmp );
 				tmp.setX0( act.getxDest() );
@@ -91,17 +90,21 @@ public class Checkers
 
 				if ( tmp.isKing() )
 				{
-					status.get( act.getxDest() ).set( act.getyDest(),
-							new King() );
-
-					tmp = status.get( act.getxDest() ).get( act.getyDest() );
-					tmp.setX0( act.getxDest() );
-					tmp.setY0( act.getyDest() );
-					tmp.setPlayer( tmp.getPlayer() );
+					status.get( act.getxDest() ).set( act.getyDest(), new King() );
+					status.get( act.getxDest() ).get( act.getyDest() ).setX0( act.getxDest() );
+					status.get( act.getxDest() ).get( act.getyDest() ).setY0( act.getyDest() );
+					status.get( act.getxDest() ).get( act.getyDest() ).setPlayer( tmp.getPlayer() );
 
 				}
 
-				return;
+				LinkedList<Action> combo = this.tryCombo( tmp );
+				if ( !combo.isEmpty() )
+				{
+					tmp.setCombo( true );
+					return combo;
+				}
+
+				return null;
 
 			}
 
@@ -114,16 +117,66 @@ public class Checkers
 			if ( tmp.isKing() )
 			{
 				status.get( act.getxDest() ).set( act.getyDest(), new King() );
-				status.get( act.getxDest() ).get( act.getyDest() )
-						.setX0( act.getxDest() );
-				status.get( act.getxDest() ).get( act.getyDest() )
-						.setY0( act.getyDest() );
-				status.get( act.getxDest() ).get( act.getyDest() )
-						.setPlayer( tmp.getPlayer() );
+				status.get( act.getxDest() ).get( act.getyDest() ).setX0( act.getxDest() );
+				status.get( act.getxDest() ).get( act.getyDest() ).setY0( act.getyDest() );
+				status.get( act.getxDest() ).get( act.getyDest() ).setPlayer( tmp.getPlayer() );
 			}
 
 		}
+		return null;
 
+	}
+
+	/**
+	 * @return List of possible attacks after a first attack
+	 */
+	public LinkedList<Action> tryCombo( IPiece p )
+	{
+		LinkedList<Action> actions = new LinkedList<Action>();
+
+		if ( p.getX0() > 1 && p.getY0() > 1 )
+		{
+			if ( status.get( p.getX0() - 1 ).get( p.getY0() - 1 ) != null
+					&& status.get( p.getX0() - 1 ).get( p.getY0() - 1 ).getPlayer() != p
+							.getPlayer()
+					&& status.get( p.getX0() - 2 ).get( p.getY0() - 2 ) == null )
+			{
+				actions.add( new Action( p.getX0(), p.getY0(), p.getX0() - 2, p.getY0() - 2 ) );
+			}
+
+		}
+		if ( p.getX0() > 1 && p.getY0() < 6 )
+		{
+			if ( status.get( p.getX0() - 1 ).get( p.getY0() + 1 ) != null
+					&& status.get( p.getX0() - 1 ).get( p.getY0() + 1 ).getPlayer() != p
+							.getPlayer()
+					&& status.get( p.getX0() - 2 ).get( p.getY0() + 2 ) == null )
+			{
+				actions.add( new Action( p.getX0(), p.getY0(), p.getX0() - 2, p.getY0() + 2 ) );
+			}
+		}
+		if ( p.getX0() < 6 && p.getY0() > 1 )
+		{
+			if ( status.get( p.getX0() + 1 ).get( p.getY0() - 1 ) != null
+					&& status.get( p.getX0() + 1 ).get( p.getY0() - 1 ).getPlayer() != p
+							.getPlayer()
+					&& status.get( p.getX0() + 2 ).get( p.getY0() - 2 ) == null )
+			{
+				actions.add( new Action( p.getX0(), p.getY0(), p.getX0() + 2, p.getY0() - 2 ) );
+			}
+		}
+		if ( p.getX0() < 6 && p.getY0() < 6 )
+		{
+			if ( status.get( p.getX0() + 1 ).get( p.getY0() + 1 ) != null
+					&& status.get( p.getX0() + 1 ).get( p.getY0() + 1 ).getPlayer() != p
+							.getPlayer()
+					&& status.get( p.getX0() + 2 ).get( p.getY0() + 2 ) == null )
+			{
+				actions.add( new Action( p.getX0(), p.getY0(), p.getX0() + 2, p.getY0() + 2 ) );
+			}
+		}
+
+		return actions;
 	}
 
 	/**
@@ -141,59 +194,51 @@ public class Checkers
 				{
 					if ( p.getPlayer() == Player.WHITE )
 					{
-						if ( this.status.get( p.getX0() - 1 ).get(
-								p.getY0() + 1 ) == null )
+						if ( this.status.get( p.getX0() - 1 ).get( p.getY0() + 1 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() - 1, p.getY0() + 1 ) );
-						} else if ( this.status.get( p.getX0() - 1 )
-								.get( p.getY0() + 1 ).getPlayer() == Player.BLACK
-								&& this.status.get( p.getX0() - 2 ).get(
-										p.getY0() + 2 ) == null )
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() - 1,
+									p.getY0() + 1 ) );
+						} else if ( this.status.get( p.getX0() - 1 ).get( p.getY0() + 1 )
+								.getPlayer() == Player.BLACK
+								&& this.status.get( p.getX0() - 2 ).get( p.getY0() + 2 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() - 2, p.getY0() + 2 ) );
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() - 2,
+									p.getY0() + 2 ) );
 						}
-						if ( this.status.get( p.getX0() - 1 ).get(
-								p.getY0() - 1 ) == null )
+						if ( this.status.get( p.getX0() - 1 ).get( p.getY0() - 1 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() - 1, p.getY0() - 1 ) );
-						} else if ( this.status.get( p.getX0() - 1 )
-								.get( p.getY0() - 1 ).getPlayer() == Player.BLACK
-								&& this.status.get( p.getX0() - 2 ).get(
-										p.getY0() - 2 ) == null )
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() - 1,
+									p.getY0() - 1 ) );
+						} else if ( this.status.get( p.getX0() - 1 ).get( p.getY0() - 1 )
+								.getPlayer() == Player.BLACK
+								&& this.status.get( p.getX0() - 2 ).get( p.getY0() - 2 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() - 2, p.getY0() - 2 ) );
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() - 2,
+									p.getY0() - 2 ) );
 						}
 					} else
 					{
-						if ( this.status.get( p.getX0() + 1 ).get(
-								p.getY0() + 1 ) == null )
+						if ( this.status.get( p.getX0() + 1 ).get( p.getY0() + 1 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() + 1, p.getY0() + 1 ) );
-						} else if ( this.status.get( p.getX0() + 1 )
-								.get( p.getY0() + 1 ).getPlayer() == Player.WHITE
-								&& this.status.get( p.getX0() + 2 ).get(
-										p.getY0() + 2 ) == null )
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() + 1,
+									p.getY0() + 1 ) );
+						} else if ( this.status.get( p.getX0() + 1 ).get( p.getY0() + 1 )
+								.getPlayer() == Player.WHITE
+								&& this.status.get( p.getX0() + 2 ).get( p.getY0() + 2 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() + 2, p.getY0() + 2 ) );
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() + 2,
+									p.getY0() + 2 ) );
 						}
-						if ( this.status.get( p.getX0() + 1 ).get(
-								p.getY0() - 1 ) == null )
+						if ( this.status.get( p.getX0() + 1 ).get( p.getY0() - 1 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() + 1, p.getY0() - 1 ) );
-						} else if ( this.status.get( p.getX0() + 1 )
-								.get( p.getY0() - 1 ).getPlayer() == Player.WHITE
-								&& this.status.get( p.getX0() + 2 ).get(
-										p.getY0() - 2 ) == null )
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() + 1,
+									p.getY0() - 1 ) );
+						} else if ( this.status.get( p.getX0() + 1 ).get( p.getY0() - 1 )
+								.getPlayer() == Player.WHITE
+								&& this.status.get( p.getX0() + 2 ).get( p.getY0() - 2 ) == null )
 						{
-							actions.add( new Action( p.getX0(), p.getY0(), p
-									.getX0() + 2, p.getY0() - 2 ) );
+							actions.add( new Action( p.getX0(), p.getY0(), p.getX0() + 2,
+									p.getY0() - 2 ) );
 						}
 					}
 				}
@@ -235,6 +280,31 @@ public class Checkers
 	public void setSelected( boolean selected )
 	{
 		this.selected = selected;
+	}
+
+	/**
+	 * @return the turn
+	 */
+	public Player getTurn()
+	{
+		return turn;
+	}
+
+	/**
+	 * @param turn
+	 *            the turn to set
+	 */
+	public void setTurn( Player turn )
+	{
+		this.turn = turn;
+	}
+
+	public void changeTurn()
+	{
+		if ( this.getTurn() == Player.WHITE )
+			this.setTurn( Player.BLACK );
+		else
+			this.setTurn( Player.WHITE );
 	}
 
 }

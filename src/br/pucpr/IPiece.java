@@ -30,4 +30,8 @@ public interface IPiece
 
 	public boolean isKing();
 
+	public void setCombo( boolean combo );
+
+	public boolean isCombo();
+
 }

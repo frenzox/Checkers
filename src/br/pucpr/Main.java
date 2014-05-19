@@ -14,32 +14,30 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import java.util.LinkedList;
 
 public class Main
 {
 
 	static JButtonCheckers[][] buttons;
 	static JFrame frame;
-	static Checkers game;	
+	static Checkers game;
 	static int x = 0;
 	static int y = 0;
+	static LinkedList<Action> actions;
+	static boolean combo = false;
 
 	public static void main( String[] args )
 	{
 		try
 		{
-			UIManager.setLookAndFeel( UIManager
-					.getCrossPlatformLookAndFeelClassName() );
+			UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
 		} catch ( UnsupportedLookAndFeelException e )
 		{
 			e.printStackTrace();
@@ -55,6 +53,7 @@ public class Main
 		}
 
 		game = new Checkers();
+		game.setTurn( Player.WHITE );
 		buttons = new JButtonCheckers[8][8];
 
 		frame = new JFrame( "Damas" );
@@ -63,7 +62,7 @@ public class Main
 		frame.setLayout( null );
 
 		JPanel contentPane = new JPanel();
-		
+
 		contentPane.setLayout( new GridLayout( 8, 8 ) );
 		contentPane.setBounds( 0, 0, 600, 600 );
 
@@ -88,36 +87,80 @@ public class Main
 				btn.addActionListener( new ActionListener()
 				{
 					@Override
-					// quando houver evento
+					/**
+					 * magia negra
+					 */
 					public void actionPerformed( ActionEvent e )
 					{
 						JButtonCheckers btn = ( JButtonCheckers ) e.getSource();
-
-						if ( game.isSelected() )
+						if ( game.getTurn() == game.getTurn() )
 						{
-							try
+							if ( game.isSelected() )
 							{
+								Action act = new Action( x, y, btn.row, btn.col );
+								boolean found = false;
 
-								game.act( new Action( x, y, btn.row, btn.col ) );
+								if ( actions != null )
+								{
+									for ( Action a : actions )
+									{
+										if ( a.compare( act ) )
+											found = true;
 
-							} catch ( MovErr e1 )
+									}
+									if ( !found )
+									{
+										JOptionPane.showMessageDialog( frame,
+												"Você tem uma jogada obrigatória a realizar!" );
+										game.setSelected( false );
+
+										x = 0;
+										y = 0;
+										return;
+
+									}
+								}
+
+								try
+								{
+									actions = game.act( act );
+
+								} catch ( MovErr e1 )
+								{
+									JOptionPane.showMessageDialog( frame, e1 );
+									game.setSelected( false );
+
+									x = 0;
+									y = 0;
+									return;
+
+								}
+
+								game.setSelected( false );
+
+								x = 0;
+								y = 0;
+
+								if ( actions == null )
+								{
+									game.getStatus().get( btn.row ).get( btn.col ).setCombo( false );
+									game.changeTurn();
+								}
+
+							} else
 							{
-								JOptionPane.showMessageDialog( frame, e1 );
-
+								if ( game.getStatus().get( btn.row ).get( btn.col ) != null
+										&& game.getStatus().get( btn.row ).get( btn.col )
+												.getPlayer() != game.getTurn() )
+								{
+									JOptionPane.showMessageDialog( frame, "Está não é sua peça!" );
+									return;
+								}
+								x = btn.row;
+								y = btn.col;
+								game.setSelected( true );
 							}
-
-							game.setSelected( false );
-
-							x = 0;
-							y = 0;
-
-						} else
-						{
-							x = btn.row;
-							y = btn.col;
-							game.setSelected( true );
 						}
-
 						printTable( game );
 					}
 				} );
@@ -133,14 +176,10 @@ public class Main
 	{
 		LinkedList<LinkedList<IPiece>> table = game.getStatus();
 
-		ImageIcon whitePiece = new ImageIcon(
-				"../Checkers/src/br/pucpr/img/white.png" );
-		ImageIcon blackPiece = new ImageIcon(
-				"../Checkers/src/br/pucpr/img/black.png" );
-		ImageIcon blackKPiece = new ImageIcon(
-				"../Checkers/src/br/pucpr/img/blackK.png" );
-		ImageIcon whiteKPiece = new ImageIcon(
-				"../Checkers/src/br/pucpr/img/whiteKing.png" );
+		ImageIcon whitePiece = new ImageIcon( "../Checkers/src/br/pucpr/img/white.png" );
+		ImageIcon blackPiece = new ImageIcon( "../Checkers/src/br/pucpr/img/black.png" );
+		ImageIcon blackKPiece = new ImageIcon( "../Checkers/src/br/pucpr/img/blackK.png" );
+		ImageIcon whiteKPiece = new ImageIcon( "../Checkers/src/br/pucpr/img/whiteK.png" );
 
 		for ( int i = 0; i < 8; i++ )
 		{
